@@ -6,10 +6,10 @@
  * @description:
  */
 
-#include "iostream"
+#include <iostream>
 #include <list>
 
-
+using namespace std;
 // instructions
 enum { LEA , IMM , JMP , CALL, JZ  , JNZ , ENT , ADJ , LEV , LI  , LC  , SI  , SC  , PUSH,
        OR  , XOR , AND , EQ  , NE  , LT  , GT  , LE  , GE  , SHL , SHR , ADD , SUB , MUL , DIV , MOD ,
@@ -21,13 +21,15 @@ enum { LEA , IMM , JMP , CALL, JZ  , JNZ , ENT , ADJ , LEV , LI  , LC  , SI  , S
 class virtualMachine
 {
 private:
-	int poolsize;         // default size of text/data/stack
-	int *pc, *bp, *sp, ax, cycle; // virtual machine registers
+	int* textSegment;
+	int* stackSegment;
+	int *pc, *sp, ax; // virtual machine registers
 	// list<int> instructionStream;
+	int loadInstruction(list<int>& instructionStream);
+
 public:
 	virtualMachine();
 	~virtualMachine();
 	int run(list<int> &instructionStream );
-	void loadInstruction(list<int> instructionStream);
 
 };
