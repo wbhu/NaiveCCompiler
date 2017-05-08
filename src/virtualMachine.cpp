@@ -1,3 +1,10 @@
+/**
+ *
+ * @author:		胡文博
+ * @email:		huwenbo@mail.dlut.edu.cn
+ * @dateTime:		2017-05-08 13:00:02
+ * @description:
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
@@ -5,7 +12,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <iostream>
-#include<fstream>
+#include <fstream>
 #include "virtualMachine.h"
 
 #define _DEBUG
@@ -19,7 +26,7 @@ virtualMachine:: virtualMachine()
 {
 	pc = textSegment =  new int[textSize];
 	sp =  stackSegment = new int[dataSize];
-	sp += sizeof(int)*(dataSize);
+	sp += sizeof(int) * (dataSize);
 }
 virtualMachine:: ~virtualMachine()
 {
@@ -27,14 +34,10 @@ virtualMachine:: ~virtualMachine()
 	delete [] stackSegment;
 }
 
-Instructions virtualMachine::str2Instruction(string s)
+int virtualMachine::str2Instruction(string s)
 {
-	if (s == "ENT") return ENT;
+	if (s == "LEA") return LEA;
 	else if (s == "IMM") return IMM ;
-	else if (s == "LEA") return LEA ;
-	else if (s == "PUSH") return  PUSH;
-	else if (s == "IMM") return  IMM;
-	else if (s == "IMM") return IMM;
 	else if (s == "JMP") return JMP;
 	else if (s == "CALL") return CALL;
 	else if (s == "JZ") return JZ;
@@ -47,6 +50,7 @@ Instructions virtualMachine::str2Instruction(string s)
 	else if (s == "SI") return SI;
 	else if (s == "SC") return SC;
 	else if (s == "PUSH") return PUSH;
+	else if (s == "OR") return OR;
 	else if (s == "XOR") return XOR;
 	else if (s == "AND") return AND;
 	else if (s == "EQ") return EQ;
@@ -62,25 +66,32 @@ Instructions virtualMachine::str2Instruction(string s)
 	else if (s == "MUL") return MUL;
 	else if (s == "DIV") return DIV;
 	else if (s == "MOD") return MOD;
+	else if (s == "OPEN") return OPEN;
 	else if (s == "READ") return READ;
 	else if (s == "CLOS") return CLOS;
 	else if (s == "PRTF") return PRTF;
 	else if (s == "MALC") return MALC;
 	else if (s == "MSET") return MSET;
 	else if (s == "MCMP") return MCMP;
-	else if(s == "EXIT") return EXIT;
-	else return
+	else if (s == "EXIT") return EXIT;
+	else return atoi(s.c_str());
 }
 
-int virtualMachine::readInstrutionsFromFile(const char* fileName)
+list<int> virtualMachine::readInstrutionsFromFile(const char* fileName)
 {
-	cout<<fileName<<endl;
+	cout << fileName << endl;
 	fstream file;
 	file.open(fileName);
 	string s;
-	file>>s;
-	cout<<s;
-	return 0;
+	list<int> instruction;
+	while (file >> s)
+	{
+#ifdef _DEBUG
+		cout << s << endl;
+#endif
+		instruction.push_back(str2Instruction(s));
+	}
+	return instruction;
 }
 int virtualMachine:: loadInstruction(list<int> & instructionStream)
 {
@@ -103,7 +114,7 @@ int virtualMachine:: loadInstruction(list<int> & instructionStream)
 int virtualMachine:: run(list<int> &instructionStream)
 {
 	loadInstruction(instructionStream);
-	cout<<"load finish"<<endl;
+	cout << "load finish" << endl;
 	int op, *tmp;
 	while (1)
 	{
@@ -113,18 +124,18 @@ int virtualMachine:: run(list<int> &instructionStream)
 		{
 			ax = *pc++;   // load immediate value to ax
 		}
-//		 else if (op == LI)
-//		 {
-//		 	ax = *(int *)ax;   // load integer to ax, address in ax
-//		 }
+		//  else if (op == LI)
+		//  {
+		//  	ax = *(int *)ax;   // load integer to ax, address in ax
+		//  }
 		// else if (op == SC)
 		// {
 		// 	ax = *(char *)*sp++ = ax;   // save character to address, value in ax, address on stack
 		// }
-//		 else if (op == SI)
-//		 {
-//		 	*(int *)*sp++ = ax;   // save integer to address, value in ax, address on stack
-//		 }
+		//  else if (op == SI)
+		//  {
+		//  	*(int *)*sp++ = ax;   // save integer to address, value in ax, address on stack
+		//  }
 		else if (op == PUSH)
 		{
 			*--sp = ax;   // push the value of ax onto the stack
@@ -204,9 +215,9 @@ int virtualMachine:: run(list<int> &instructionStream)
 
 		else if (op == EXIT)
 		{
-			cout<<"exit:"<<*sp<<endl;
+			cout << "exit:" << *sp << endl;
 			return 0;
-			
+
 			// return *sp;
 		}
 		// else if (op == OPEN)
@@ -247,26 +258,3 @@ int virtualMachine:: run(list<int> &instructionStream)
 	return 0;
 }
 
-
-
-int main(int argc, char **argv)
-{
-
-	list<int> inst;
-	inst.push_back(IMM);
-	inst.push_back(3);
-	inst.push_back(PUSH);
-	inst.push_back(IMM);
-	inst.push_back(4);
-	inst.push_back(ADD);
-	inst.push_back(PUSH);
-	inst.push_back(EXIT);
-
-	virtualMachine VM;
-	// int res = VM.loadInstruction(inst);
-	VM.run(inst);
-	VM.readInstrutionsFromFile("tt.txt");
-	string s = "ENT";
-	const char* ss = s.c_str();
-	cout<<"test:"<<Instructions(ss)<<endl;
-}

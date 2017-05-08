@@ -12,10 +12,46 @@
 
 using namespace std;
 // instructions
-enum Instructions { LEA , IMM , JMP , CALL, JZ  , JNZ , ENT , ADJ , LEV , LI  , LC  , SI  , SC  , PUSH,
-       OR  , XOR , AND , EQ  , NE  , LT  , GT  , LE  , GE  , SHL , SHR , ADD , SUB , MUL , DIV , MOD ,
-       OPEN, READ, CLOS, PRTF, MALC, MSET, MCMP, EXIT
-     };
+enum Instructions {
+	LEA ,
+	IMM ,
+	JMP ,
+	CALL,
+	JZ  ,
+	JNZ ,
+	ENT ,
+	ADJ ,
+	LEV ,
+	LI  ,
+	LC  , 
+	SI  , 
+	SC  , 
+	PUSH,
+	OR  , 
+	XOR , 
+	AND , 
+	EQ  , 
+	NE  , 
+	LT  , 
+	GT  , 
+	LE  , 
+	GE  , 
+	SHL , 
+	SHR , 
+	ADD , 
+	SUB , 
+	MUL , 
+	DIV , 
+	MOD ,
+	OPEN, 
+	READ, 
+	CLOS, 
+	PRTF, 
+	MALC, 
+	MSET, 
+	MCMP, 
+	EXIT
+};
 
 
 
@@ -25,14 +61,11 @@ private:
 	int* textSegment;
 	int* stackSegment;
 	int *pc, *sp, ax; // virtual machine registers
-	// list<int> instructionStream;
 	int loadInstruction(list<int>& instructionStream);
-	Instructions str2Instruction(string s);
-
+	int str2Instruction(string s);
 public:
 	virtualMachine();
 	~virtualMachine();
-	int readInstrutionsFromFile(const char* fileName);
+	list<int> readInstrutionsFromFile(const char* fileName);
 	int run(list<int> &instructionStream );
-
 };
