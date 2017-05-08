@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <iostream>
+#include<fstream>
 #include "virtualMachine.h"
 
 #define _DEBUG
@@ -26,6 +27,61 @@ virtualMachine:: ~virtualMachine()
 	delete [] stackSegment;
 }
 
+Instructions virtualMachine::str2Instruction(string s)
+{
+	if (s == "ENT") return ENT;
+	else if (s == "IMM") return IMM ;
+	else if (s == "LEA") return LEA ;
+	else if (s == "PUSH") return  PUSH;
+	else if (s == "IMM") return  IMM;
+	else if (s == "IMM") return IMM;
+	else if (s == "JMP") return JMP;
+	else if (s == "CALL") return CALL;
+	else if (s == "JZ") return JZ;
+	else if (s == "JNZ") return JNZ;
+	else if (s == "ENT") return ENT;
+	else if (s == "ADJ") return ADJ;
+	else if (s == "LEV") return LEV;
+	else if (s == "LI") return LI;
+	else if (s == "LC") return LC;
+	else if (s == "SI") return SI;
+	else if (s == "SC") return SC;
+	else if (s == "PUSH") return PUSH;
+	else if (s == "XOR") return XOR;
+	else if (s == "AND") return AND;
+	else if (s == "EQ") return EQ;
+	else if (s == "NE") return NE;
+	else if (s == "LT") return LT;
+	else if (s == "GT") return GT;
+	else if (s == "LE") return LE;
+	else if (s == "GE") return GE;
+	else if (s == "SHL") return SHL;
+	else if (s == "SHR") return SHR;
+	else if (s == "ADD") return ADD;
+	else if (s == "SUB") return SUB;
+	else if (s == "MUL") return MUL;
+	else if (s == "DIV") return DIV;
+	else if (s == "MOD") return MOD;
+	else if (s == "READ") return READ;
+	else if (s == "CLOS") return CLOS;
+	else if (s == "PRTF") return PRTF;
+	else if (s == "MALC") return MALC;
+	else if (s == "MSET") return MSET;
+	else if (s == "MCMP") return MCMP;
+	else if(s == "EXIT") return EXIT;
+	else return
+}
+
+int virtualMachine::readInstrutionsFromFile(const char* fileName)
+{
+	cout<<fileName<<endl;
+	fstream file;
+	file.open(fileName);
+	string s;
+	file>>s;
+	cout<<s;
+	return 0;
+}
 int virtualMachine:: loadInstruction(list<int> & instructionStream)
 {
 	if (instructionStream.size() > textSize)
@@ -57,18 +113,18 @@ int virtualMachine:: run(list<int> &instructionStream)
 		{
 			ax = *pc++;   // load immediate value to ax
 		}
-		 else if (op == LI)
-		 {
-		 	ax = *(int *)ax;   // load integer to ax, address in ax
-		 }
+//		 else if (op == LI)
+//		 {
+//		 	ax = *(int *)ax;   // load integer to ax, address in ax
+//		 }
 		// else if (op == SC)
 		// {
 		// 	ax = *(char *)*sp++ = ax;   // save character to address, value in ax, address on stack
 		// }
-		 else if (op == SI)
-		 {
-		 	*(int *)*sp++ = ax;   // save integer to address, value in ax, address on stack
-		 }
+//		 else if (op == SI)
+//		 {
+//		 	*(int *)*sp++ = ax;   // save integer to address, value in ax, address on stack
+//		 }
 		else if (op == PUSH)
 		{
 			*--sp = ax;   // push the value of ax onto the stack
@@ -209,6 +265,8 @@ int main(int argc, char **argv)
 	virtualMachine VM;
 	// int res = VM.loadInstruction(inst);
 	VM.run(inst);
-	cout<<sizeof(int)<<","<<sizeof(int*)<<endl;
-
+	VM.readInstrutionsFromFile("tt.txt");
+	string s = "ENT";
+	const char* ss = s.c_str();
+	cout<<"test:"<<Instructions(ss)<<endl;
 }
