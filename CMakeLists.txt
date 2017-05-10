@@ -7,6 +7,7 @@
 #  */
 project(ncc)
 cmake_minimum_required(VERSION 2.8)
+add_compile_options(-std=c++11)
 # set(CMAKE_C_FLAGS "-m32")
 # set(CMAKE_CXX_FLAGS "-m32")
 include_directories("./src")
