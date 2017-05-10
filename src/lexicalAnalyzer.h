@@ -24,7 +24,7 @@ class lexicalAnalyzer
 	char word[255] = {};
 	ifstream file;
 	char *str = NULL;     //存放每行的字符串
-	char *delims = " ";  //分割标志
+	char *delims = (char*)" ";  //分割标志
 	string source;
 
 	char symbol[17] = {'+', '-', '*', '/', '%', '>',  '<', ',' , ';', '{' , '}',  '(', ')', '[', ']', '='};
