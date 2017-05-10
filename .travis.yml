@@ -1,5 +1,15 @@
-mkdir build
-cd build
-cmake ..
-make
-
+sudo: required
+dist: Trusty
+script:
+  - sudo mkdir -p build
+  - cd build
+  - sudo cmake ..
+  - sudo make
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-5
+    - g++-5
+    - cmake
