@@ -1,4 +1,3 @@
-#include <virtualMachine.h>
 #include <lexicalAnalyzer.h>
 
 // void testSimpleVM(string fileName)
