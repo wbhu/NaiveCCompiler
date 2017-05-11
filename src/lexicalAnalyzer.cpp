@@ -67,10 +67,6 @@ lexicalAnalyzer::lexicalAnalyzer(string fileName)
 	HandleSpace(source.c_str());
 	prePro();
 	str = strtok(tempstr, delims);
-	// cout << source << endl;
-
-	// cout << "ss" << word << endl;
-	// cout << tempstr << endl;
 }
 
 lexicalAnalyzer::~lexicalAnalyzer()
