@@ -52,7 +52,7 @@ string TermNameSS[34] =
 	"_OVER"
 };
 
-void lexicalAnalyzer::Token::disp()
+void Token::disp()
 {
 
 	cout << TermNameSS[term] << "\t" << value << endl;
@@ -172,7 +172,7 @@ void lexicalAnalyzer:: prePro()
 	}
 }
 
-lexicalAnalyzer::Token lexicalAnalyzer:: next()
+Token lexicalAnalyzer:: next()
 {
 	if(backStepNum)
 	{
@@ -370,7 +370,7 @@ lexicalAnalyzer::Token lexicalAnalyzer:: next()
 	return t;
 }
 
-lexicalAnalyzer::Token lexicalAnalyzer::last()
+Token lexicalAnalyzer::last()
 {
 	backStepNum++;
 	return tokenStream[tokenStream.size()-1 - backStepNum];

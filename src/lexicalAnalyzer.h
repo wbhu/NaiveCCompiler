@@ -14,6 +14,64 @@
 #include <vector>
 using namespace std;
 
+
+enum Term
+{
+	_MAIN,
+	_INT,
+	_WHILE,
+	_IF,
+	_ELSE,
+	_RETURN,
+	_VOID,
+
+	_PRINT,
+	_READ,
+	_FOR,
+	
+	_NOT,			// !
+	_ADD,           		// +
+	_SUB,            		// -
+	_MUL,           		// *
+	_MOD,         		 // %
+	_DIV,           		// /
+	_BIGGER,        		// >
+	_SMALLLER,      		// <
+	_COMMA,     		// ,
+	_SEMICOLON, 		// ;
+	_BRACE_L,       		// {
+	_BRACE_R,       		// }
+	_PARENTHESE_L,   	// (
+	_PARENTHESE_R,       	// )
+	_BRACKET_L,     		// [
+	_BRACKET_R,     	// ]
+	_ASSIGN,        		// =
+	_EQUAL,		// ==
+	_BIGGEROREQUAL,	//>=
+	_SIMMALLEROREQUAL,	//<=
+	_NOTEQUAL,		// !=
+	_ID,
+	_NUM,
+	_OVER				//the flag of source over
+};
+
+
+class Token
+{
+public:
+	Token()
+	{
+		term = _OVER;
+		value = "";
+	}
+	Term term;
+	string value;
+	void disp();
+};
+
+
+
+
 class lexicalAnalyzer
 {
 	//存放处理后的字符串
@@ -44,59 +102,6 @@ class lexicalAnalyzer
 
 
 public:
-	enum Term
-	{
-		_MAIN,
-		_INT,
-		_WHILE,
-		_IF,
-		_ELSE,
-		_RETURN,
-		_VOID,
-
-		_PRINT,
-		_READ,
-		_FOR,
-		
-		_NOT,			// !
-		_ADD,           		// +
-		_SUB,            		// -
-		_MUL,           		// *
-		_MOD,         		 // %
-		_DIV,           		// /
-		_BIGGER,        		// >
-		_SMALLLER,      		// <
-		_COMMA,     		// ,
-		_SEMICOLON, 		// ;
-		_BRACE_L,       		// {
-		_BRACE_R,       		// }
-		_PARENTHESE_L,   	// (
-		_PARENTHESE_R,       	// )
-		_BRACKET_L,     		// [
-		_BRACKET_R,     	// ]
-		_ASSIGN,        		// =
-		_EQUAL,		// ==
-		_BIGGEROREQUAL,	//>=
-		_SIMMALLEROREQUAL,	//<=
-		_NOTEQUAL,		// !=
-		_ID,
-		_NUM,
-		_OVER				//the flag of source over
-	};
-
-
-	class Token
-	{
-	public:
-		Token()
-		{
-			term = _OVER;
-			value = "";
-		}
-		Term term;
-		string value;
-		void disp();
-	};
 	// lexicalAnalyzer();
 	lexicalAnalyzer(string fileName);
 	~lexicalAnalyzer();
