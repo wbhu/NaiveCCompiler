@@ -11,11 +11,8 @@
 #include <string>
 #include <fstream>
 #include <map>
-
+#include <vector>
 using namespace std;
-
-
-
 
 class lexicalAnalyzer
 {
@@ -30,13 +27,14 @@ class lexicalAnalyzer
 	char *delims = (char*)" ";  //分割标志
 	string source;
 	bool minusOrNegtiveFlag = false;
-
+	int backStepNum = 0;
 	char symbol[17] = { '!', '+', '-', '*', '/', '%', '>',  '<', ',' , ';', '{' , '}',  '(', ')', '[', ']', '='};
 	static const int keywordNum = 10;
 	string keyword[keywordNum] =
 	{
 		"main",   "int", "while", "if",  "else", "return", "void", "print", "read", "for"
 	};
+	
 	bool IsLetter(char ch);
 	bool IsDigit(char ch);
 	// int IsSymbol(char ch);
@@ -103,6 +101,9 @@ public:
 	lexicalAnalyzer(string fileName);
 	~lexicalAnalyzer();
 	Token next();
+	Token last();
+private:
+	vector<Token> tokenStream;
 
 };
 

@@ -19,6 +19,30 @@ void testLexAnalyzer(string fileName)
 			break;
 		}
 		t.disp();
+		t= lex.next();
+		if (t.term == lexicalAnalyzer::_OVER)
+		{
+			break;
+		}
+		t.disp();
+		t= lex.next();
+		if (t.term == lexicalAnalyzer::_OVER)
+		{
+			break;
+		}
+		t.disp();
+		t = lex.last();
+		if (t.term == lexicalAnalyzer::_OVER)
+		{
+			break;
+		}
+		t.disp();
+		t = lex.last();
+		if (t.term == lexicalAnalyzer::_OVER)
+		{
+			break;
+		}
+		t.disp();
 	}
 
 }

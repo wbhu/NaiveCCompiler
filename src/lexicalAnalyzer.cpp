@@ -174,6 +174,10 @@ void lexicalAnalyzer:: prePro()
 
 lexicalAnalyzer::Token lexicalAnalyzer:: next()
 {
+	if(backStepNum)
+	{
+		return tokenStream[tokenStream.size() - (backStepNum--)];
+	}
 	Token t;
 	if (str == NULL)
 	{
@@ -362,6 +366,12 @@ lexicalAnalyzer::Token lexicalAnalyzer:: next()
 	{
 		str = strtok(NULL, delims);
 	}
+	tokenStream.push_back(t);
 	return t;
 }
 
+lexicalAnalyzer::Token lexicalAnalyzer::last()
+{
+	backStepNum++;
+	return tokenStream[tokenStream.size()-1 - backStepNum];
+}
