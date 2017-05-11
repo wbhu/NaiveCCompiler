@@ -12,4 +12,4 @@ addons:
     packages:
     - gcc-5
     - g++-5
-    - cmake
+    - cmake 3.2.2
