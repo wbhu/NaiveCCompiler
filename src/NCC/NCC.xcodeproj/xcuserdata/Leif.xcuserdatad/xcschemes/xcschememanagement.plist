@@ -4,7 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Semantic.xcscheme</key>
+		<key>NCC.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
@@ -12,7 +12,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>29FE5F1C1EC38368005984CF</key>
+		<key>29D6EDB91EC48CF300B86D07</key>
 		<dict>
 			<key>primary</key>
 			<true/>

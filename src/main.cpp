@@ -1,7 +1,7 @@
-#include <virtualMachine.h>
-#include <lexicalAnalyzer.h>
-#include <simpleVitualMachine.h>
-#include <simpleVitualMachine.h>
+#include "virtualMachine.h"
+#include "lexicalAnalyzer.h"
+#include "simpleVitualMachine.h"
+#include "simpleVitualMachine.h"
 
 void testSimpleVM(string fileName)
 {

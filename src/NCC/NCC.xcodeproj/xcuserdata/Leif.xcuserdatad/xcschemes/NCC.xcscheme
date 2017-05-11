@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "29FE5F1C1EC38368005984CF"
-               BuildableName = "Semantic"
-               BlueprintName = "Semantic"
-               ReferencedContainer = "container:Semantic.xcodeproj">
+               BlueprintIdentifier = "29D6EDB91EC48CF300B86D07"
+               BuildableName = "NCC"
+               BlueprintName = "NCC"
+               ReferencedContainer = "container:NCC.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "29FE5F1C1EC38368005984CF"
-            BuildableName = "Semantic"
-            BlueprintName = "Semantic"
-            ReferencedContainer = "container:Semantic.xcodeproj">
+            BlueprintIdentifier = "29D6EDB91EC48CF300B86D07"
+            BuildableName = "NCC"
+            BlueprintName = "NCC"
+            ReferencedContainer = "container:NCC.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -46,8 +46,7 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
-      useCustomWorkingDirectory = "YES"
-      customWorkingDirectory = "/Users/Leif/Desktop/NaiveCCompiler/SemanticAnalyzer"
+      useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
@@ -56,10 +55,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "29FE5F1C1EC38368005984CF"
-            BuildableName = "Semantic"
-            BlueprintName = "Semantic"
-            ReferencedContainer = "container:Semantic.xcodeproj">
+            BlueprintIdentifier = "29D6EDB91EC48CF300B86D07"
+            BuildableName = "NCC"
+            BlueprintName = "NCC"
+            ReferencedContainer = "container:NCC.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -75,10 +74,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "29FE5F1C1EC38368005984CF"
-            BuildableName = "Semantic"
-            BlueprintName = "Semantic"
-            ReferencedContainer = "container:Semantic.xcodeproj">
+            BlueprintIdentifier = "29D6EDB91EC48CF300B86D07"
+            BuildableName = "NCC"
+            BlueprintName = "NCC"
+            ReferencedContainer = "container:NCC.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

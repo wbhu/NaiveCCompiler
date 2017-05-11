@@ -12,7 +12,7 @@ using std::endl;
 using std::ifstream;
 using std::ofstream;
 
-SemanticAnalyzer::SemanticAnalyzer(const char* input)
+SemanticAnalyzer::SemanticAnalyzer(const char* input):lexer(input)
 {
 	labelp = 0;
 	datap = 0;
@@ -21,8 +21,7 @@ SemanticAnalyzer::SemanticAnalyzer(const char* input)
 	while(it != tokenStream.end() && *it != '.') it++;
 	codeOut = string(tokenStream.begin(),it);
 	codeOut.push_back('.');
-	codeOut.push_back('n');
-	codeOut.push_back('c');
+	codeOut.push_back('s');
 }
 
 
@@ -31,13 +30,13 @@ SemanticAnalyzer::~SemanticAnalyzer(){}
 int SemanticAnalyzer::analyze()
 {
 	int es = 0;
-	fin.open(tokenStream);
+	/*fin.open(tokenStream);
 	if(!fin.is_open())
 	{
 		cout<<"\n"<<"打开"<<tokenStream<<"错误"<<endl;
 		es = 10;
 		return(es);
-	}
+	}*/
 
 	fout.open(codeOut);
 	if(!fout.is_open())
@@ -81,10 +80,11 @@ void SemanticAnalyzer::print_vartable()
 	}
 }
 
-void SemanticAnalyzer::get_token()
+void SemanticAnalyzer::get(lexicalAnalyzer::Token &tk)
 {
-	fin>>token>>tokenVal;
-	cout<<token<<tokenVal<<endl;
+	//fin>>token.term>>token.value;
+	tk = lexer.next();
+	cout<<token.term<<token.value<<endl;
 }
 
 int SemanticAnalyzer::name_def(string &name)
@@ -123,13 +123,13 @@ int SemanticAnalyzer::lookup(string &name,int &address)
 int SemanticAnalyzer::program()
 {
 	int es = 0;
-	get_token();
-	if(token != "{")
+	get(token);
+	if(token.term != _BRACE_L)
 	{
 		es = 1;
 		return(es);
 	}
-	get_token();
+	get(token);
 	es = declaration_list();
 	if(es > 0)	return(es);
 
@@ -137,7 +137,7 @@ int SemanticAnalyzer::program()
 
 	es = statement_list();
 	if(es > 0)	return(es);
-	if(token != "}")
+	if(token.term != _BRACE_R)
 	{
 		es = 2;
 		return(es);
@@ -149,7 +149,7 @@ int SemanticAnalyzer::program()
 int SemanticAnalyzer::compound_stat()
 {
 	int es = 0;
-	get_token();
+	get(token);
 	es = statement_list();
 	return(es);
 }
@@ -157,36 +157,36 @@ int SemanticAnalyzer::compound_stat()
 int SemanticAnalyzer::statement()
 {
 	int	es = 0;
-	if(es ==0 && token == "if")
+	if(es ==0 && token.term == _IF)
 		es = if_stat();
-	if(es ==0 && token == "while")
+	if(es ==0 && token.term == _WHILE)
 		es = while_stat();
-	if(es ==0 && token == "for")
+	if(es ==0 && token.term == _FOR)
 		es = for_stat();
-	if(es ==0 && token == "read" )
+	if(es ==0 && token.term == _READ)
 		es = read_stat();
-	if(es ==0 && token == "write")
-		es = write_stat();
-	if(es ==0 && token == "{")
+	if(es ==0 && token.term == _PRINT)
+		es = print_stat();
+	if(es ==0 && token.term == _BRACE_L)
 		es = compound_stat();
-	if(es == 0 && (token == "ID" || token == "NUM" || token == "("))
+	if(es == 0 && (token.term == _ID || token.term == _NUM || token.term == _PARENTHESE_L))
 		es = expression_stat();
 	return(es);
 }
 
 int SemanticAnalyzer::expression_stat(){
 	int es = 0;
-	if(token == ";" )
+	if(token.term == _SEMICOLON )
 	{
-		get_token();
+		get(token);
 		return(es);
 	}
 	es = expression();
 	if(es > 0) return(es);
 	fout<<"\tPOP"<<endl;
-	if(token == ";")
+	if(token.term == _SEMICOLON)
 	{
-		get_token();
+		get(token);
 		return(es);
 	}
 	else
@@ -199,27 +199,27 @@ int SemanticAnalyzer::expression_stat(){
 int SemanticAnalyzer::expression()
 {
     int es = 0;
-    std::streamoff fileadd;
-	string token2,token3;
-	if(token == "ID")
+    //std::streamoff fileadd;
+    lexicalAnalyzer::Token tk;
+	if(token.term == _ID)
 	{
-		fileadd = fin.tellg();
-		fin>>token2>>token3;
-		cout<<token2<<token3<<endl;
-		if(token2 == "=")
+		//fileadd = fin.tellg();
+		get(tk);
+		if(tk.term == _ASSIGN) //由于有左公共因子，需要向前看一步
 		{
 			int address;
-			es = lookup(tokenVal,address);
+			es = lookup(token.value,address);
 			if(es > 0) return(es);
-			get_token();
+			get(token);
 			es = bool_expr();
 			if(es > 0) return(es);
 			fout<<"\tSTO "<<address<<endl;
 		}
 		else
 		{
-			fin.seekg(fileadd,std::ios::beg);
-			cout<<token<<tokenVal<<endl;
+			//fin.seekg(fileadd,std::ios::beg);
+			//cout<<token.term<<token.value<<endl;
+			lexer.back();
 			es = bool_expr();
 			if(es > 0) return(es);
 		}
@@ -237,20 +237,20 @@ int SemanticAnalyzer::bool_expr()
 	es = additive_expr();
 	if(es > 0)
 		return(es);
-	if(token == ">"||token == ">=" ||
-		token == "<" ||token == "<="||
-		token == "=="||token == "!=")
+	if(token.term == _BIGGER||token.term == _BIGGEROREQUAL ||
+		token.term == _SMALLLER ||token.term == _SIMMALLEROREQUAL||
+		token.term == _EQUAL||token.term == _NOTEQUAL)
 	{
-		string token2 = token;
-		get_token();
+		lexicalAnalyzer::Term op = token.term;
+		get(token);
 		es = additive_expr();
 		if(es > 0) return(es);
-		if(token2 == ">") fout<<"	GT"<<endl;
-		if(token2 == ">=") fout<<"	GE"<<endl;
-		if(token2 == "<") fout<<"	LES"<<endl;
-		if(token2 == "<=") fout<<"	LE"<<endl;
-		if(token2 == "==") fout<<"	EQ"<<endl;
-		if(token2 == "!=") fout<<"	NOTEQ"<<endl;
+		if(op == _BIGGER) fout<<"\tGT"<<endl;
+		if(op == _BIGGEROREQUAL) fout<<"\tGE"<<endl;
+		if(op == _SMALLLER) fout<<"\tLES"<<endl;
+		if(op == _SIMMALLEROREQUAL) fout<<"	LE"<<endl;
+		if(op == _EQUAL) fout<<"\tEQ"<<endl;
+		if(op == _NOTEQUAL) fout<<"\tNOTEQ"<<endl;
 	}
 	return(es);
 }
@@ -260,14 +260,14 @@ int SemanticAnalyzer::additive_expr(){
 	es = term();
 	if(es > 0)
 		return(es);
-	while(token == "+" || token == "-")
+	while(token.term == _ADD || token.term == _SUB)
 	{
-		string token2 = token;
-		get_token();
+		lexicalAnalyzer::Term op = token.term;
+		get(token);
 		es = term();
 		if(es > 0) return(es);
-		if(token2 == "+") fout<<"	ADD"<<endl;
-		if(token2 == "-") fout<<"	SUB"<<endl;
+		if(op == _ADD) fout<<"\tADD"<<endl;
+		if(op == _SUB) fout<<"\tSUB"<<endl;
 	}
 	return(es);
 }
@@ -277,14 +277,14 @@ int SemanticAnalyzer::term()
 	int es = 0;
 	es = factor();
 	if(es > 0) return(es);
-	while(token == "*" || token == "/")
+	while(token.term == _MUL || token.term == _DIV)
 	{
-		string token2 = token;
-		get_token();
+		lexicalAnalyzer::Term op = token.term;
+		get(token);
 		es = factor();
 		if(es > 0) return(es);
-		if(token2 == "*") fout<<"	MULT"<<endl;
-		if(token2 == "/") fout<<"	DIV"<<endl;
+		if(op == _MUL) fout<<"\tMULT"<<endl;
+		if(op == _DIV) fout<<"\tDIV"<<endl;
 	}
 	return(es);
 }
@@ -292,29 +292,29 @@ int SemanticAnalyzer::term()
 int SemanticAnalyzer::factor()
 {
 	int es = 0;
-	if(token == "(")
+	if(token.term == _PARENTHESE_L)
 	{
-		get_token();
+		get(token);
 		es = expression();
 		if(es > 0) return(es);
-		if(token != ")") return(es = 6);
-		get_token();
+		if(token.term != _PARENTHESE_R) return(es = 6);
+		get(token);
 	}
 	else
 	{
-		if(token == "ID")
+		if(token.term == _ID)
 		{
 			int address;
-			es = lookup(tokenVal,address);
+			es = lookup(token.value,address);
 			if(es > 0) return(es);
 			fout<<"\tLOAD "<<address<<endl;
-			get_token();
+			get(token);
 			return(es);
 		}
-		if(token == "NUM")
+		if(token.term == _NUM)
 		{
-			fout<<"\tLOADI "<<tokenVal<<endl;
-			get_token();
+			fout<<"\tLOADI "<<token.value<<endl;
+			get(token);
 			return(es);
 		}
 		else
@@ -329,23 +329,23 @@ int SemanticAnalyzer::factor()
 int SemanticAnalyzer::if_stat()
 {
 	int es = 0,label1,label2;
-	get_token();
-	if(token != "(") return(es = 5);
-	get_token();
+	get(token);
+	if(token.term != _PARENTHESE_L) return(es = 5);
+	get(token);
 	es = expression();
 	if(es > 0) return(es);
-	if(token != ")") return(es = 6);
+	if(token.term != _PARENTHESE_R) return(es = 6);
 	label1 = labelp++;
 	fout<<"\tBRF "<<label1<<endl;
-	get_token();
+	get(token);
 	es = statement();
 	if(es > 0) return(es);
 	label2 = labelp++;
-	fout<<"	BE LABEL"<<label2<<endl;
+	fout<<"\tBE LABEL"<<label2<<endl;
 	fout<<"LABEL"<<label1<<":"<<endl;
-	if(token == "else")
+	if(token.term == "else")
 	{
-		get_token();
+		get(token);
 		es = statement();
 		if(es > 0) return(es);
 	}
@@ -358,15 +358,15 @@ int SemanticAnalyzer::while_stat()
 	int es = 0,label1,label2;
 	label1 = labelp++;
 	fout<<"LABEL"<<label1<<":"<<endl;
-	get_token();
-	if(token != "(") return(es = 5);
-	get_token();
+	get(token);
+	if(token.term != _PARENTHESE_L) return(es = 5);
+	get(token);
 	es = expression();
 	if(es > 0) return(es);
-	if(token != ")") return(es = 6);
+	if(token.term != _PARENTHESE_R) return(es = 6);
 	label2 = labelp++;
 	fout<<"\tBRF "<<label2<<endl;
-	get_token();
+	get(token);
 	es = statement();
 	if(es > 0) return(es);
 	fout<<"\tBR "<<label1<<endl;
@@ -377,37 +377,37 @@ int SemanticAnalyzer::while_stat()
 int SemanticAnalyzer::for_stat()
 {
 	int es = 0,label1,label2,label3,label4;
-	get_token();
-	if(token != "(") return(es = 5);
+	get(token);
+	if(token.term != _PARENTHESE_L) return(es = 5);
 
-	get_token();
+	get(token);
 	es = expression();
 	if(es > 0) return(es);
 	fout<<"\tPOP"<<endl;
-	if(token != ";") return(es = 4);
+	if(token.term != _SEMICOLON) return(es = 4);
 	
 	label1 = labelp++;
 	fout<<"LABEL"<<label1<<":"<<endl;//set label1 for loop condition
-	get_token();
+	get(token);
 	es = expression();
 	if(es > 0) return(es);
 	label2 = labelp++;
 	fout<<"\tBRF "<<label2<<endl;//false transfer->end
 	label3 = labelp++;
 	fout<<"\tBR "<<label3<<endl;//->loop body
-	if(token != ";") return(es = 4);
+	if(token.term != _SEMICOLON) return(es = 4);
 
 	label4 = labelp++;
 	fout<<"LABEL"<<label4<<":"<<endl;
-	get_token();
+	get(token);
 	es = expression();
 	if(es > 0)	return(es);
 	fout<<"\tPOP"<<endl;
 	fout<<"\tBR "<<label1<<endl;
-	if(token != ")") return(es = 6);
+	if(token.term != _PARENTHESE_R) return(es = 6);
 
 	fout<< "LABEL"<<label3<<":"<<endl;
-	get_token();
+	get(token);
 	es = statement();
 	if(es > 0) return(es);
 	fout<<"\tBR "<<label4<<endl;
@@ -415,34 +415,34 @@ int SemanticAnalyzer::for_stat()
 	return(es);
 }
 
-/* <write_stat> := write<expression>@OUT 
+/* <print_stat> := print<expression>@OUT 
 OUT指令将栈顶元素输出*/
 
-int SemanticAnalyzer::write_stat()
+int SemanticAnalyzer::print_stat()
 {
 	int es = 0;
-	get_token();
+	get(token);
 	es = expression();
 	if(es > 0) return(es);
-	if(token != ";") return(es = 4);
+	if(token.term != _SEMICOLON) return(es = 4);
 	fout<<"\tOUT"<<endl;
-	get_token();
+	get(token);
 	return(es);
 }
 
 int SemanticAnalyzer::read_stat()
 {
 	int es = 0,address;
-	get_token();
-	if(token != "ID") return(es = 3);
-	es = lookup(tokenVal,address);
+	get(token);
+	if(token.term != _ID) return(es = 3);
+	es = lookup(token.value,address);
 	if(es > 0) return(es);
 	fout<<"\tIN"<<endl;
 	fout<<"\tSTO "<<address<<endl;
 	fout<<"\tPOP"<<endl;
-	get_token();
-	if(token != ";") return(es = 4);
-	get_token();
+	get(token);
+	if(token.term != _SEMICOLON) return(es = 4);
+	get(token);
 	return(es);
 }
 
@@ -450,20 +450,20 @@ int SemanticAnalyzer::read_stat()
 int SemanticAnalyzer::declaration_stat()
 {
 	int es = 0;
-	get_token();
-	if(token != "ID") return(es = 3);
-	es = name_def(tokenVal);
+	get(token);
+	if(token.term != _ID) return(es = 3);
+	es = name_def(token.value);
 	if(es > 0) return(es);
-	get_token();
-	if(token != ";") return(es = 4);
-	get_token();
+	get(token);
+	if(token.term != _SEMICOLON) return(es = 4);
+	get(token);
 	return(es);
 }
 
 int SemanticAnalyzer::declaration_list()
 {
 	int es = 0;
-	while(token == "int")
+	while(token.term == _INT)
 	{
 		es = declaration_stat();
 		if(es > 0)return(es);
@@ -474,7 +474,7 @@ int SemanticAnalyzer::declaration_list()
 int SemanticAnalyzer::statement_list()
 {
 	int es = 0;
-	while(token != "}")
+	while(token.term != _BRACE_R)
 	{
 		es = statement();
 		if(es > 0)return(es);

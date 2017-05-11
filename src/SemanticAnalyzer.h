@@ -4,10 +4,12 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include "lexicalAnalyzer.h"
 using std::vector;
 using std::string;
 using std::ifstream;
 using std::ofstream;
+
 
  class SemanticAnalyzer
  {
@@ -21,8 +23,8 @@ using std::ofstream;
  			this->address = address;
  		}
  	};
- 	string token;
- 	string tokenVal;
+    lexicalAnalyzer::Token token;
+    lexicalAnalyzer lexer;
  	string tokenStream;
  	string codeOut;
  	ofstream fout;
@@ -47,7 +49,7 @@ using std::ofstream;
  	int if_stat();
  	int while_stat();
  	int for_stat();
- 	int write_stat();
+ 	int print_stat();
  	int read_stat();
  	int declaration_stat();
  	int declaration_list();
@@ -55,7 +57,7 @@ using std::ofstream;
  	int name_def(string &name);
  	int lookup(string &name,int &address);
  	void print_vartable();
- 	void get_token();
+ 	void get(lexicalAnalyzer::Token &tk);
  };
 
 #endif

@@ -7,12 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		29FE5F2A1EC383C7005984CF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 29FE5F271EC383C7005984CF /* main.cpp */; };
-		29FE5F2B1EC383C7005984CF /* SemanticAnalyzer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 29FE5F281EC383C7005984CF /* SemanticAnalyzer.cpp */; };
+		29D6EDCD1EC48D2C00B86D07 /* lexicalAnalyzer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 29D6EDC41EC48D2C00B86D07 /* lexicalAnalyzer.cpp */; };
+		29D6EDCE1EC48D2C00B86D07 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 29D6EDC61EC48D2C00B86D07 /* main.cpp */; };
+		29D6EDCF1EC48D2C00B86D07 /* SemanticAnalyzer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 29D6EDC71EC48D2C00B86D07 /* SemanticAnalyzer.cpp */; };
+		29D6EDD01EC48D2C00B86D07 /* simpleVitualMachine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 29D6EDC91EC48D2C00B86D07 /* simpleVitualMachine.cpp */; };
+		29D6EDD11EC48D2C00B86D07 /* virtualMachine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 29D6EDCB1EC48D2C00B86D07 /* virtualMachine.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		29FE5F1B1EC38368005984CF /* CopyFiles */ = {
+		29D6EDB81EC48CF300B86D07 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -24,14 +27,20 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		29FE5F1D1EC38368005984CF /* Semantic */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Semantic; sourceTree = BUILT_PRODUCTS_DIR; };
-		29FE5F271EC383C7005984CF /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../main.cpp; sourceTree = "<group>"; };
-		29FE5F281EC383C7005984CF /* SemanticAnalyzer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SemanticAnalyzer.cpp; path = ../SemanticAnalyzer.cpp; sourceTree = "<group>"; };
-		29FE5F291EC383C7005984CF /* SemanticAnalyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SemanticAnalyzer.h; path = ../SemanticAnalyzer.h; sourceTree = "<group>"; };
+		29D6EDBA1EC48CF300B86D07 /* NCC */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NCC; sourceTree = BUILT_PRODUCTS_DIR; };
+		29D6EDC41EC48D2C00B86D07 /* lexicalAnalyzer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = lexicalAnalyzer.cpp; path = ../../lexicalAnalyzer.cpp; sourceTree = "<group>"; };
+		29D6EDC51EC48D2C00B86D07 /* lexicalAnalyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lexicalAnalyzer.h; path = ../../lexicalAnalyzer.h; sourceTree = "<group>"; };
+		29D6EDC61EC48D2C00B86D07 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../main.cpp; sourceTree = "<group>"; };
+		29D6EDC71EC48D2C00B86D07 /* SemanticAnalyzer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SemanticAnalyzer.cpp; path = ../../SemanticAnalyzer.cpp; sourceTree = "<group>"; };
+		29D6EDC81EC48D2C00B86D07 /* SemanticAnalyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SemanticAnalyzer.h; path = ../../SemanticAnalyzer.h; sourceTree = "<group>"; };
+		29D6EDC91EC48D2C00B86D07 /* simpleVitualMachine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = simpleVitualMachine.cpp; path = ../../simpleVitualMachine.cpp; sourceTree = "<group>"; };
+		29D6EDCA1EC48D2C00B86D07 /* simpleVitualMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = simpleVitualMachine.h; path = ../../simpleVitualMachine.h; sourceTree = "<group>"; };
+		29D6EDCB1EC48D2C00B86D07 /* virtualMachine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = virtualMachine.cpp; path = ../../virtualMachine.cpp; sourceTree = "<group>"; };
+		29D6EDCC1EC48D2C00B86D07 /* virtualMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = virtualMachine.h; path = ../../virtualMachine.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		29FE5F1A1EC38368005984CF /* Frameworks */ = {
+		29D6EDB71EC48CF300B86D07 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -41,98 +50,107 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		29FE5F141EC38368005984CF = {
+		29D6EDB11EC48CF300B86D07 = {
 			isa = PBXGroup;
 			children = (
-				29FE5F271EC383C7005984CF /* main.cpp */,
-				29FE5F281EC383C7005984CF /* SemanticAnalyzer.cpp */,
-				29FE5F291EC383C7005984CF /* SemanticAnalyzer.h */,
-				29FE5F1F1EC38368005984CF /* Semantic */,
-				29FE5F1E1EC38368005984CF /* Products */,
+				29D6EDBC1EC48CF300B86D07 /* NCC */,
+				29D6EDBB1EC48CF300B86D07 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		29FE5F1E1EC38368005984CF /* Products */ = {
+		29D6EDBB1EC48CF300B86D07 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				29FE5F1D1EC38368005984CF /* Semantic */,
+				29D6EDBA1EC48CF300B86D07 /* NCC */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		29FE5F1F1EC38368005984CF /* Semantic */ = {
+		29D6EDBC1EC48CF300B86D07 /* NCC */ = {
 			isa = PBXGroup;
 			children = (
+				29D6EDC41EC48D2C00B86D07 /* lexicalAnalyzer.cpp */,
+				29D6EDC51EC48D2C00B86D07 /* lexicalAnalyzer.h */,
+				29D6EDC61EC48D2C00B86D07 /* main.cpp */,
+				29D6EDC71EC48D2C00B86D07 /* SemanticAnalyzer.cpp */,
+				29D6EDC81EC48D2C00B86D07 /* SemanticAnalyzer.h */,
+				29D6EDC91EC48D2C00B86D07 /* simpleVitualMachine.cpp */,
+				29D6EDCA1EC48D2C00B86D07 /* simpleVitualMachine.h */,
+				29D6EDCB1EC48D2C00B86D07 /* virtualMachine.cpp */,
+				29D6EDCC1EC48D2C00B86D07 /* virtualMachine.h */,
 			);
-			path = Semantic;
+			path = NCC;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		29FE5F1C1EC38368005984CF /* Semantic */ = {
+		29D6EDB91EC48CF300B86D07 /* NCC */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 29FE5F241EC38368005984CF /* Build configuration list for PBXNativeTarget "Semantic" */;
+			buildConfigurationList = 29D6EDC11EC48CF400B86D07 /* Build configuration list for PBXNativeTarget "NCC" */;
 			buildPhases = (
-				29FE5F191EC38368005984CF /* Sources */,
-				29FE5F1A1EC38368005984CF /* Frameworks */,
-				29FE5F1B1EC38368005984CF /* CopyFiles */,
+				29D6EDB61EC48CF300B86D07 /* Sources */,
+				29D6EDB71EC48CF300B86D07 /* Frameworks */,
+				29D6EDB81EC48CF300B86D07 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = Semantic;
-			productName = Semantic;
-			productReference = 29FE5F1D1EC38368005984CF /* Semantic */;
+			name = NCC;
+			productName = NCC;
+			productReference = 29D6EDBA1EC48CF300B86D07 /* NCC */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		29FE5F151EC38368005984CF /* Project object */ = {
+		29D6EDB21EC48CF300B86D07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Leif Zhu";
 				TargetAttributes = {
-					29FE5F1C1EC38368005984CF = {
+					29D6EDB91EC48CF300B86D07 = {
 						CreatedOnToolsVersion = 8.3.2;
 						ProvisioningStyle = Automatic;
 					};
 				};
 			};
-			buildConfigurationList = 29FE5F181EC38368005984CF /* Build configuration list for PBXProject "Semantic" */;
+			buildConfigurationList = 29D6EDB51EC48CF300B86D07 /* Build configuration list for PBXProject "NCC" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = 29FE5F141EC38368005984CF;
-			productRefGroup = 29FE5F1E1EC38368005984CF /* Products */;
+			mainGroup = 29D6EDB11EC48CF300B86D07;
+			productRefGroup = 29D6EDBB1EC48CF300B86D07 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				29FE5F1C1EC38368005984CF /* Semantic */,
+				29D6EDB91EC48CF300B86D07 /* NCC */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		29FE5F191EC38368005984CF /* Sources */ = {
+		29D6EDB61EC48CF300B86D07 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				29FE5F2A1EC383C7005984CF /* main.cpp in Sources */,
-				29FE5F2B1EC383C7005984CF /* SemanticAnalyzer.cpp in Sources */,
+				29D6EDD01EC48D2C00B86D07 /* simpleVitualMachine.cpp in Sources */,
+				29D6EDCF1EC48D2C00B86D07 /* SemanticAnalyzer.cpp in Sources */,
+				29D6EDCE1EC48D2C00B86D07 /* main.cpp in Sources */,
+				29D6EDD11EC48D2C00B86D07 /* virtualMachine.cpp in Sources */,
+				29D6EDCD1EC48D2C00B86D07 /* lexicalAnalyzer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		29FE5F221EC38368005984CF /* Debug */ = {
+		29D6EDBF1EC48CF400B86D07 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -180,7 +198,7 @@
 			};
 			name = Debug;
 		};
-		29FE5F231EC38368005984CF /* Release */ = {
+		29D6EDC01EC48CF400B86D07 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -221,14 +239,14 @@
 			};
 			name = Release;
 		};
-		29FE5F251EC38368005984CF /* Debug */ = {
+		29D6EDC21EC48CF400B86D07 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
-		29FE5F261EC38368005984CF /* Release */ = {
+		29D6EDC31EC48CF400B86D07 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -238,24 +256,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		29FE5F181EC38368005984CF /* Build configuration list for PBXProject "Semantic" */ = {
+		29D6EDB51EC48CF300B86D07 /* Build configuration list for PBXProject "NCC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				29FE5F221EC38368005984CF /* Debug */,
-				29FE5F231EC38368005984CF /* Release */,
+				29D6EDBF1EC48CF400B86D07 /* Debug */,
+				29D6EDC01EC48CF400B86D07 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		29FE5F241EC38368005984CF /* Build configuration list for PBXNativeTarget "Semantic" */ = {
+		29D6EDC11EC48CF400B86D07 /* Build configuration list for PBXNativeTarget "NCC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				29FE5F251EC38368005984CF /* Debug */,
-				29FE5F261EC38368005984CF /* Release */,
+				29D6EDC21EC48CF400B86D07 /* Debug */,
+				29D6EDC31EC48CF400B86D07 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 29FE5F151EC38368005984CF /* Project object */;
+	rootObject = 29D6EDB21EC48CF300B86D07 /* Project object */;
 }

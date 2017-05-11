@@ -71,7 +71,7 @@ public:
 		_ASSIGN,        		// =
 		_EQUAL,			// ==
 		_BIGGEROREQUAL,		//>=
-		_SIMMALLEROREQUAL,		//<=
+		_SIMMALLEROREQUAL,		// <=
 		_ID,
 		_NUM,
 		_OVER				//the flag of source over
