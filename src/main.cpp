@@ -1,13 +1,11 @@
 #include <virtualMachine.h>
 #include <lexicalAnalyzer.h>
-#include <simpleVitualMachine.h>
-#include <simpleVitualMachine.h>
 
-void testSimpleVM(string fileName)
-{
-	simpleVitualMachine simpleVM(fileName);
-	simpleVM.run();
-}
+// void testSimpleVM(string fileName)
+// {
+// 	simpleVitualMachine simpleVM(fileName);
+// 	simpleVM.run();
+// }
 void testLexAnalyzer(string fileName)
 {
 	lexicalAnalyzer lex(fileName);
@@ -52,6 +50,6 @@ void testLexAnalyzer(string fileName)
 int main()
 {
 	testLexAnalyzer("../test/test.c");
-	testSimpleVM("../test/testVirtualMachine.s");
+	// testSimpleVM("../test/testVirtualMachine.s");
 	return 0;
 }
