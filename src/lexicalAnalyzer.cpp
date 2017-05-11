@@ -59,7 +59,7 @@ lexicalAnalyzer::lexicalAnalyzer(string fileName)
 {
 	file.open(fileName);
 	string s;
-	while (getline(file, s) != NULL)
+	while (getline(file, s))
 	{
 		source += s;
 		source += ' ';
