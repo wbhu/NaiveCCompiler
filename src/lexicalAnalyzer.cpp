@@ -141,7 +141,7 @@ void lexicalAnalyzer:: HandleSpace(const char a[])
 	}
 }
 
-//处理"//"注释
+//处理"//"注释//
 void lexicalAnalyzer:: prePro()
 {
 	int j = 0;
