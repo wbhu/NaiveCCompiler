@@ -8,7 +8,8 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <string>
+#include <cstring>
 #include "lexicalAnalyzer.h"
 using namespace std;
 string TermNameSS[29] =
@@ -49,16 +50,16 @@ void lexicalAnalyzer::Token::disp()
     cout<<TermNameSS[term]<<"-----------------------------------"<<value<<endl;
 }
 
-lexicalAnalyzer::lexicalAnalyzer()
-{
-	cout << "please select a file to compile" << endl;
-}
+// lexicalAnalyzer::lexicalAnalyzer()
+// {
+// 	cout << "please select a file to compile" << endl;
+// }
 
-lexicalAnalyzer::lexicalAnalyzer(const char *fileName)
+lexicalAnalyzer::lexicalAnalyzer(string fileName)
 {
 	file.open(fileName);
 	string s;
-	while (getline(file, s) != NULL)
+	while (getline(file, s))
 	{
 		source += s;
 		source += ' ';

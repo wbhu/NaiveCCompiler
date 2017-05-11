@@ -5,6 +5,9 @@
  * @dateTime:           2017-05-08 21:28:48
  * @description:
  */
+#ifndef _LEXICALANALYZER_
+#define _LEXICALANALYZER_
+
 #include <string>
 #include <fstream>
 #include <map>
@@ -85,11 +88,13 @@ public:
 		}
 		Term term;
 		string value;
-        void disp();
+		void disp();
 	};
-	lexicalAnalyzer();
-	lexicalAnalyzer(const char* fileName);
+	// lexicalAnalyzer();
+	lexicalAnalyzer(string fileName);
 	~lexicalAnalyzer();
 	Token next();
 
 };
+
+#endif
