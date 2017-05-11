@@ -31,14 +31,15 @@ class lexicalAnalyzer
 	string source;
 	bool minusOrNegtiveFlag = false;
 
-	char symbol[17] = {'+', '-', '*', '/', '%', '>',  '<', ',' , ';', '{' , '}',  '(', ')', '[', ']', '='};
-	string keyword[7] =
+	char symbol[17] = { '!', '+', '-', '*', '/', '%', '>',  '<', ',' , ';', '{' , '}',  '(', ')', '[', ']', '='};
+	static const int keywordNum = 10;
+	string keyword[keywordNum] =
 	{
-		"main",   "int", "while", "if",  "else", "return", "void"
+		"main",   "int", "while", "if",  "else", "return", "void", "print", "read", "for"
 	};
 	bool IsLetter(char ch);
 	bool IsDigit(char ch);
-	int IsSymbol(char ch);
+	// int IsSymbol(char ch);
 	int IsKeyword(string str);
 	void HandleSpace(const char a[]);
 	void prePro();
@@ -54,11 +55,17 @@ public:
 		_ELSE,
 		_RETURN,
 		_VOID,
+
+		_PRINT,
+		_READ,
+		_FOR,
+		
+		_NOT,			// !
 		_ADD,           		// +
 		_SUB,            		// -
 		_MUL,           		// *
 		_MOD,         		 // %
-		_REM,           		// /
+		_DIV,           		// /
 		_BIGGER,        		// >
 		_SMALLLER,      		// <
 		_COMMA,     		// ,
@@ -68,11 +75,12 @@ public:
 		_PARENTHESE_L,   	// (
 		_PARENTHESE_R,       	// )
 		_BRACKET_L,     		// [
-		_BRACKET_R,     		// ]
+		_BRACKET_R,     	// ]
 		_ASSIGN,        		// =
 		_EQUAL,		// ==
 		_BIGGEROREQUAL,	//>=
 		_SIMMALLEROREQUAL,	//<=
+		_NOTEQUAL,		// !=
 		_ID,
 		_NUM,
 		_OVER				//the flag of source over

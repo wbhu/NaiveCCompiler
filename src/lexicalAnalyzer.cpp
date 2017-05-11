@@ -12,7 +12,7 @@
 #include <cstring>
 #include "lexicalAnalyzer.h"
 using namespace std;
-string TermNameSS[29] =
+string TermNameSS[34] =
 {
 	"_MAIN",
 	"_INT",
@@ -21,11 +21,17 @@ string TermNameSS[29] =
 	"_ELSE",
 	"_RETURN",
 	"_VOID",
+
+	"_PRINT",
+	"_READ",
+	"_FOR",
+
+	"_NOT",
 	"_ADD",
 	"_SUB",
 	"_MUL",
 	"_MOD",
-	"_REM",
+	"_DIV",
 	"_BIGGER",
 	"_SMALLLER",
 	"_COMMA" 		,
@@ -40,6 +46,7 @@ string TermNameSS[29] =
 	"_EQUAL"	,
 	"_BIGGEROREQUAL",
 	"_SIMMALLEROREQUAL",
+	"_NOTEQUAL",
 	"_ID",
 	"_NUM",
 	"_OVER"
@@ -47,9 +54,9 @@ string TermNameSS[29] =
 
 void lexicalAnalyzer::Token::disp()
 {
-	
+
 	cout << TermNameSS[term] << "\t" << value << endl;
-	cout<<"-----------------------------------------------------"<<endl;
+	cout << "-----------------------------------------------------" << endl;
 }
 
 // lexicalAnalyzer::lexicalAnalyzer()
@@ -84,7 +91,7 @@ bool lexicalAnalyzer:: IsLetter(char ch)
 	return false;
 }
 
-//判断是否为数字,bug!!
+//判断是否为数字
 bool lexicalAnalyzer:: IsDigit(char ch)
 {
 	if (ch >= '0' && ch <= '9')
@@ -92,21 +99,21 @@ bool lexicalAnalyzer:: IsDigit(char ch)
 	return false;
 }
 
-//判断是否为定界符等
-int lexicalAnalyzer:: IsSymbol(char ch)
-{
-	for (int i = 0; i < 17; i++)
-	{
-		if (ch == symbol[i])
-			return i;
-	}
-	return -1;
-}
+// //判断是否为定界符等
+// int lexicalAnalyzer:: IsSymbol(char ch)
+// {
+// 	for (int i = 0; i < 17; i++)
+// 	{
+// 		if (ch == symbol[i])
+// 			return i;
+// 	}
+// 	return -1;
+// }
 
 //判断是否为关键字
 int lexicalAnalyzer:: IsKeyword(string str)
 {
-	for (int i = 0; i < 7; i++)
+	for (int i = 0; i < keywordNum; i++)
 	{
 		if (str == keyword[i])
 		{
@@ -233,7 +240,7 @@ lexicalAnalyzer::Token lexicalAnalyzer:: next()
 	}
 	else
 	{
-		for (int index = 0; index < 16; index++)	//16 is the number of different first characters of private member symbol
+		for (int index = 0; index < 17; index++)	//17 is the number of different first characters of private member symbol
 		{
 			if (*(str + i) == symbol[index] && (!flag))
 			{
@@ -252,6 +259,25 @@ lexicalAnalyzer::Token lexicalAnalyzer:: next()
 						i++;
 						t.term = _ASSIGN;
 						t.value = "=";
+						minusOrNegtiveFlag = false;
+						break;
+					}
+				}
+				else if (*(str + i) == '!')
+				{
+					if (*(str + i + 1) == '=')
+					{
+						i += 2;
+						t.term = _NOTEQUAL;
+						t.value = "!=";
+						minusOrNegtiveFlag = false;
+						break;
+					}
+					else
+					{
+						i++;
+						t.term = _NOT;
+						t.value = "!";
 						minusOrNegtiveFlag = false;
 						break;
 					}
@@ -320,7 +346,7 @@ lexicalAnalyzer::Token lexicalAnalyzer:: next()
 				else
 				{
 					i++;
-					t.term = Term(index + 7);	//7 is the offset of term index in symbol
+					t.term = Term(index + 10);	//10 is the offset of term index in symbol
 					t.value = symbol[index];
 					minusOrNegtiveFlag = false;
 					break;
