@@ -1,9 +1,9 @@
 /**
- * 
+ *
  * @author:		胡文博
  * @email:		huwenbo@mail.dlut.edu.cn
  * @dateTime:		2017-05-09 19:39:21
- * @description: 	
+ * @description:
  */
 #include <iostream>
 #include <stdio.h>
@@ -14,40 +14,42 @@
 using namespace std;
 string TermNameSS[29] =
 {
-    "_MAIN",
-    "_INT",
-    "_WHILE",
-    "_IF",
-    "_ELSE",
-    "_RETURN",
-    "_VOID",
-    "_ADD",
-    "_SUB",
-    "_MUL",
-    "_MOD",
-    "_REM",
-    "_BIGGER",
-    "_SMALLLER",
-    "_COMMA" 		,
-    "_SEMICOLON",
-    "_BRACE_L",
-    "_BRACE_R",
-    "_PARENTHESE_L",
-    "_PARENTHESE_R",
-    "_BRACKET_L",
-    "_BRACKET_R",
-    "_ASSIGN",
-    "_EQUAL"	,
-    "_BIGGEROREQUAL",
-    "_SIMMALLEROREQUAL",
-    "_ID",
-    "_NUM",
-    "_OVER"
+	"_MAIN",
+	"_INT",
+	"_WHILE",
+	"_IF",
+	"_ELSE",
+	"_RETURN",
+	"_VOID",
+	"_ADD",
+	"_SUB",
+	"_MUL",
+	"_MOD",
+	"_REM",
+	"_BIGGER",
+	"_SMALLLER",
+	"_COMMA" 		,
+	"_SEMICOLON",
+	"_BRACE_L",
+	"_BRACE_R",
+	"_PARENTHESE_L",
+	"_PARENTHESE_R",
+	"_BRACKET_L",
+	"_BRACKET_R",
+	"_ASSIGN",
+	"_EQUAL"	,
+	"_BIGGEROREQUAL",
+	"_SIMMALLEROREQUAL",
+	"_ID",
+	"_NUM",
+	"_OVER"
 };
 
 void lexicalAnalyzer::Token::disp()
 {
-    cout<<TermNameSS[term]<<"-----------------------------------"<<value<<endl;
+	
+	cout << TermNameSS[term] << "\t" << value << endl;
+	cout<<"-----------------------------------------------------"<<endl;
 }
 
 // lexicalAnalyzer::lexicalAnalyzer()
@@ -209,12 +211,13 @@ lexicalAnalyzer::Token lexicalAnalyzer:: next()
 		{
 			t.term = Term(keywordFlag);
 			t.value = keyword[keywordFlag];
-
+			minusOrNegtiveFlag = false;
 		}
 		else
 		{
 			t.term = _ID;
 			t.value = Tok;
+			minusOrNegtiveFlag = true;
 		}
 	}
 	else if (IsDigit(*(str + i)) && (!flag))	//numbers
@@ -226,10 +229,11 @@ lexicalAnalyzer::Token lexicalAnalyzer:: next()
 		}
 		t.term = _NUM;
 		t.value = Tok;
+		minusOrNegtiveFlag = true;
 	}
 	else
 	{
-		for (int index = 0; index < 16; index++)
+		for (int index = 0; index < 16; index++)	//16 is the number of different first characters of private member symbol
 		{
 			if (*(str + i) == symbol[index] && (!flag))
 			{
@@ -240,6 +244,7 @@ lexicalAnalyzer::Token lexicalAnalyzer:: next()
 						i += 2;
 						t.term = _EQUAL;
 						t.value = "==";
+						minusOrNegtiveFlag = false;
 						break;
 					}
 					else
@@ -247,6 +252,7 @@ lexicalAnalyzer::Token lexicalAnalyzer:: next()
 						i++;
 						t.term = _ASSIGN;
 						t.value = "=";
+						minusOrNegtiveFlag = false;
 						break;
 					}
 				}
@@ -257,6 +263,7 @@ lexicalAnalyzer::Token lexicalAnalyzer:: next()
 						i += 2;
 						t.term = _BIGGEROREQUAL;
 						t.value = ">=";
+						minusOrNegtiveFlag = false;
 						break;
 					}
 					else
@@ -264,6 +271,7 @@ lexicalAnalyzer::Token lexicalAnalyzer:: next()
 						i++;
 						t.term = _BIGGER;
 						t.value = ">";
+						minusOrNegtiveFlag = false;
 						break;
 					}
 				}
@@ -274,6 +282,7 @@ lexicalAnalyzer::Token lexicalAnalyzer:: next()
 						i += 2;
 						t.term = _SIMMALLEROREQUAL;
 						t.value = "<=";
+						minusOrNegtiveFlag = false;
 						break;
 					}
 					else
@@ -281,15 +290,39 @@ lexicalAnalyzer::Token lexicalAnalyzer:: next()
 						i++;
 						t.term = _SMALLLER;
 						t.value = "<";
+						minusOrNegtiveFlag = false;
 						break;
 					}
 				}
-
+				else if (*(str + i) == '-')
+				{
+					i++;
+					if ( (!minusOrNegtiveFlag) && IsDigit(*(str + i)))
+					{
+						while (IsDigit(*(str + i)))
+						{
+							Tok += *(str + i);
+							i++;
+						}
+						t.term = _NUM;
+						t.value = "-" + Tok;
+						minusOrNegtiveFlag = true;
+						break;
+					}
+					else
+					{
+						t.term = _SUB;
+						t.value = "-";
+						minusOrNegtiveFlag = false;
+						break;
+					}
+				}
 				else
 				{
 					i++;
-					t.term = Term(index + 7);
+					t.term = Term(index + 7);	//7 is the offset of term index in symbol
 					t.value = symbol[index];
+					minusOrNegtiveFlag = false;
 					break;
 				}
 			}

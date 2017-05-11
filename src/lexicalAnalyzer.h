@@ -29,6 +29,7 @@ class lexicalAnalyzer
 	char *str = NULL;     //存放每行的字符串
 	char *delims = (char*)" ";  //分割标志
 	string source;
+	bool minusOrNegtiveFlag = false;
 
 	char symbol[17] = {'+', '-', '*', '/', '%', '>',  '<', ',' , ';', '{' , '}',  '(', ')', '[', ']', '='};
 	string keyword[7] =
@@ -64,14 +65,14 @@ public:
 		_SEMICOLON, 		// ;
 		_BRACE_L,       		// {
 		_BRACE_R,       		// }
-		_PARENTHESE_L,   		// (
+		_PARENTHESE_L,   	// (
 		_PARENTHESE_R,       	// )
 		_BRACKET_L,     		// [
 		_BRACKET_R,     		// ]
 		_ASSIGN,        		// =
-		_EQUAL,			// ==
-		_BIGGEROREQUAL,		//>=
-		_SIMMALLEROREQUAL,		//<=
+		_EQUAL,		// ==
+		_BIGGEROREQUAL,	//>=
+		_SIMMALLEROREQUAL,	//<=
 		_ID,
 		_NUM,
 		_OVER				//the flag of source over
