@@ -13,8 +13,32 @@ void testLexAnalyzer(string fileName)
 	lexicalAnalyzer lex(fileName);
 	while (1)
 	{
-		lexicalAnalyzer::Token t = lex.next();
-		if (t.term == lexicalAnalyzer::_OVER)
+		Token t = lex.next();
+		if (t.term == _OVER)
+		{
+			break;
+		}
+		t.disp();
+		t= lex.next();
+		if (t.term == _OVER)
+		{
+			break;
+		}
+		t.disp();
+		t= lex.next();
+		if (t.term ==  _OVER)
+		{
+			break;
+		}
+		t.disp();
+		t = lex.last();
+		if (t.term ==  _OVER)
+		{
+			break;
+		}
+		t.disp();
+		t = lex.last();
+		if (t.term ==  _OVER)
 		{
 			break;
 		}
