@@ -25,7 +25,6 @@ using std::ofstream;
  	};
     Token token;
     lexicalAnalyzer lexer;
- 	string tokenStream;
  	string codeOut;
  	ofstream fout;
  	ifstream fin;
@@ -34,7 +33,8 @@ using std::ofstream;
 	int	datap;
 
  public:
- 	SemanticAnalyzer(string &input);
+ 	SemanticAnalyzer(string input);
+    SemanticAnalyzer(string input, string output);
  	~SemanticAnalyzer();
  	void analyze();
  	void program();
