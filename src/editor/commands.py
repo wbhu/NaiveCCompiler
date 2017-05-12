@@ -68,7 +68,7 @@ def setKeys():
     :return:
     """
     keywords['naiveC'] = {}
-    with open('naiveCkeywords.txt', 'r') as f:
+    with open('./config/naiveCkeywords.txt', 'r') as f:
         for i in f:
             i = i.strip('\n')
             words = map(str, i.split())
@@ -78,7 +78,7 @@ def setKeys():
             for j in words:
                 MyDict.insert(j)
     keywords['naiveAssembly'] = {}
-    with open('naiveAssemblykeywords.txt', 'r') as f:
+    with open('./config/naiveAssemblykeywords.txt', 'r') as f:
         for i in f:
             i = i.strip('\n')
             words = map(str, i.split())
@@ -644,7 +644,7 @@ class FilesFileMenu(object):
             f.write(data)
             f.close()
         except IOError:
-            f = open('untitled.cpp', 'w')
+            f = open('test.nc', 'w')
             f.write(data)
             f.close()
             return -1
@@ -722,55 +722,15 @@ class RunFilemenu(object):
         compiles naiveC currently
         need MinGw in C drive to work
         """
-        frame2 = args[0]
-        Display.show_outputpad(frame2, outputpad)
+        # frame2 = args[0]
+        # Display.show_outputpad(frame2, outputpad)
         if lang == 'naiveC':
             global FLAG
             FLAG = 0
 
             """
-            Windows system
-            """
-
-            if platform.system() == 'Windows':
-                # remove the old exe and replace it with current one
-                os.remove('a.exe')
-                # Save_As file automatically before compiling
-                x = cmd_file.Save(app, pad)
-
-                if x == -1:
-                    p = subprocess.Popen(
-                        [
-                            "C:\\Program Files (x86)\\MinGW\\bin\\g++.exe",
-                            '-std=naiveC14',
-                            'untitled.cpp'],
-                        stdin=subprocess.PIPE,
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.PIPE)
-                else:
-                    p = subprocess.Popen(
-                        [
-                            "C:\\Program Files (x86)\\MinGW\\bin\\g++.exe",
-                            '-std=naiveC14',
-                            File.path],
-                        stdin=subprocess.PIPE,
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.PIPE)
-                status = p.communicate()[1]
-                outputpad.config(state=GUI.NORMAL)
-                outputpad.delete('1.0', GUI.END)
-                if len(status) == 0:
-                    outputpad.insert(GUI.END, 'compiled successfully \n')
-                else:
-                    outputpad.insert(GUI.END, status + '\n')
-                    p.terminate()
-                    return -1
-                p.terminate()
-                outputpad.config(state=GUI.DISABLED)
-            """
             Linux
             """
-
             if platform.system() == 'Linux':
                 print ("in linux")
                 # No need to terminate process in linux
@@ -778,35 +738,37 @@ class RunFilemenu(object):
                 print ("compile")
                 if x == -1:
                     print ("nosave")
-                    p = subprocess.Popen(
-                        [
-                            "ncc",
-                            'untitled.cpp',
-                            '-o a.s'
-                        ],
-                        stdin=subprocess.PIPE,
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.PIPE)
+                    p = subprocess.Popen('xterm', shell=True)
+                    time.sleep(0.5)
+                    # print (File.path)
+                    K.type_string("ncc ./test.nc -o a.s")
+                    K.tap_key(K.enter_key)
+                    # p = subprocess.Popen(
+                    #     [
+                    #         "ncc",
+                    #         'test.nc',
+                    #         '-o a.s'
+                    #     ],
+                    #     stdin=subprocess.PIPE,
+                    #     stdout=subprocess.PIPE,
+                    #     stderr=subprocess.PIPE)
                 else:
-                    print (File.path)
-                    p = subprocess.Popen(
-                    [
-                        "ncc",
-                        File.path,
-                        '-o a.s'],
-                    stdin=subprocess.PIPE,
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE)
+                    print ("nosave")
+                    p = subprocess.Popen('xterm', shell=True)
+                    time.sleep(0.5)
+                    # print (File.path)
+                    K.type_string("ncc ./test.nc -o a.s")
+                    K.tap_key(K.enter_key)
                 status = p.communicate()[1]
                 outputpad.config(state=GUI.NORMAL)
                 outputpad.delete('1.0', GUI.END)
-                if len(status) == 0:
-                    outputpad.insert(GUI.END, 'compiled successfully \n')
-                else:
-                    outputpad.insert(GUI.END, status + '\n')
-                    # p.terminate()
-                    return -1
-                # p.terminate()
+                # if len(status) == 0:
+                #     outputpad.insert(GUI.END, 'compiled successfully \n')
+                # else:
+                #     outputpad.insert(GUI.END, status + '\n')
+                #     # p.terminate()
+                #     return -1
+                # # p.terminate()
                 outputpad.config(state=GUI.DISABLED)
 
         if lang == 'naiveAssembly':
@@ -855,24 +817,29 @@ class RunFilemenu(object):
             """
             print ("in linux")
             if platform.system() == 'Linux':
-                outputpad.config(state=GUI.NORMAL)
-                outputpad.delete('1.0', GUI.END)
-                if FLAG:
-                    # compilation hasnt happened, terminate
-                    outputpad.insert(GUI.END, 'Compile First')
-                if not os.path.exists('./a.s'):
-                    outputpad.delete('1.0', GUI.END)
-                    outputpad.insert(GUI.END, 'Compilation Failed.. Press Compile to get details')
-                    return
-                r = inputpad.get('1.0', GUI.END)
-                f = open('input.txt', 'w')
-                f.write(r)
-                f.close()
-                os.system('nvm ./a.s <input.txt >output.txt')
-                r = open('output.txt').read()
-                outputpad.delete('1.0', GUI.END)
-                outputpad.insert(GUI.END, r)
-                outputpad.config(state=GUI.DISABLED)
+                p = subprocess.Popen('xterm', shell=True)
+                time.sleep(0.5)
+                print (File.path)
+                K.type_string("nvm ./a.s")
+                K.tap_key(K.enter_key)
+                # outputpad.config(state=GUI.NORMAL)
+                # outputpad.delete('1.0', GUI.END)
+                # if FLAG:
+                #     # compilation hasnt happened, terminate
+                #     outputpad.insert(GUI.END, 'Compile First')
+                # if not os.path.exists('./a.s'):
+                #     outputpad.delete('1.0', GUI.END)
+                #     outputpad.insert(GUI.END, 'Compilation Failed.. Press Compile to get details')
+                #     return
+                # r = inputpad.get('1.0', GUI.END)
+                # f = open('input.txt', 'w')
+                # f.write(r)
+                # f.close()
+                # os.system('nvm ./a.s <input.txt >output.txt')
+                # r = open('output.txt').read()
+                # outputpad.delete('1.0', GUI.END)
+                # outputpad.insert(GUI.END, r)
+                # outputpad.config(state=GUI.DISABLED)
 
         if lang == 'naiveAssembly':
             cmd_file.Save(app, pad)

@@ -1,4 +1,4 @@
-#!usr/bin/Python2
+#! /usr/bin/python
 """
 
 A code editor, can also compile and run programs.
@@ -33,7 +33,6 @@ class DisplayWidget():
         self.lb = []
         self.pad = []
         self.linepad = []
-        # self.inputpad = []
         self.outputpad = []
         self.W1 = []
 
@@ -51,11 +50,7 @@ class DisplayWidget():
         linepad.config(fg='#f8f8f2', bg='#002b36', insertbackground='white', state=GUI.DISABLED)
         lb = GUI.Listbox(frame_autocomplete, height=4, width=120)
         lb.config(fg='gray', bg='#002b36')
-        # inputpad = GUI.Text(W1, height=30, width=30)
-        # inputpad.config(fg='white', bg='#002b36', insertbackground='white')
-
         W1.add(pad)
-        # W1.add(inputpad)
 
         def share_bar(*event):
             """

@@ -181,7 +181,7 @@ Token lexicalAnalyzer:: next()
 	Token t;
 	if (str == NULL)
 	{
-		cout << "The source code is over, don't call next() again!" << endl;
+		// cout << "The source code is over, don't call next() again!" << endl;
 
 		return t;
 	}

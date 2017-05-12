@@ -14,7 +14,11 @@ aux_source_directory(./src/virtualMachine VMSRC_LIST)
 add_executable( "nvm" ${VMSRC_LIST} )
 install (TARGETS nvm DESTINATION bin)
 
-include_directories("./src")
-aux_source_directory(./src SRC_LIST)
+include_directories("./src/compiler")
+aux_source_directory(./src/compiler SRC_LIST)
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 install ( TARGETS ${PROJECT_NAME} DESTINATION bin)
+
+install (DIRECTORY src/editor/images DESTINATION bin)
+install( FILES src/editor/commands.py src/editor/naiveAssemblykeywords.txt src/editor/naiveCkeywords.txt DESTINATION bin)
+install (FILES src/editor/Editor DESTINATION bin)
