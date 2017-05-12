@@ -48,7 +48,7 @@ enum Term
 	_ASSIGN,        		// =
 	_EQUAL,		// ==
 	_BIGGEROREQUAL,	//>=
-	_SIMMALLEROREQUAL,	//<=
+	_SIMMALLEROREQUAL, //   <=
 	_NOTEQUAL,		// !=
 	_ID,
 	_NUM,

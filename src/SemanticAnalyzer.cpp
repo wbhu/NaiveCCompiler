@@ -12,16 +12,17 @@ using std::endl;
 using std::ifstream;
 using std::ofstream;
 
-SemanticAnalyzer::SemanticAnalyzer(const char* input):lexer(input)
+SemanticAnalyzer::SemanticAnalyzer(string &input):lexer(input)
 {
 	labelp = 0;
 	datap = 0;
 	tokenStream = input;
-	string::iterator it = tokenStream.begin();
-	while(it != tokenStream.end() && *it != '.') it++;
+	string::iterator it = tokenStream.end();
+	while(it != tokenStream.begin() && *it != '.') it--;
 	codeOut = string(tokenStream.begin(),it);
 	codeOut.push_back('.');
-	codeOut.push_back('s');
+	codeOut.push_back('n');
+    codeOut.push_back('c');
 }
 
 
@@ -37,8 +38,8 @@ int SemanticAnalyzer::analyze()
 		es = 10;
 		return(es);
 	}*/
-
 	fout.open(codeOut);
+    cout<<codeOut<<endl;
 	if(!fout.is_open())
 	{
 		cout<<"\n"<<"创建"<<codeOut<<"错误"<<endl;
@@ -64,7 +65,7 @@ int SemanticAnalyzer::analyze()
 		case 22:printf("变量重复定义！\n");break;
 		case 23:printf("变量未声明！\n");break;
 	}
-	fin.close();
+	//fin.close();
 	fout.close();
 	return(es);
 }
@@ -80,7 +81,7 @@ void SemanticAnalyzer::print_vartable()
 	}
 }
 
-void SemanticAnalyzer::get(lexicalAnalyzer::Token &tk)
+void SemanticAnalyzer::get(Token &tk)
 {
 	//fin>>token.term>>token.value;
 	tk = lexer.next();
@@ -200,7 +201,7 @@ int SemanticAnalyzer::expression()
 {
     int es = 0;
     //std::streamoff fileadd;
-    lexicalAnalyzer::Token tk;
+    Token tk;
 	if(token.term == _ID)
 	{
 		//fileadd = fin.tellg();
@@ -219,7 +220,7 @@ int SemanticAnalyzer::expression()
 		{
 			//fin.seekg(fileadd,std::ios::beg);
 			//cout<<token.term<<token.value<<endl;
-			lexer.back();
+			lexer.last();
 			es = bool_expr();
 			if(es > 0) return(es);
 		}
@@ -241,7 +242,7 @@ int SemanticAnalyzer::bool_expr()
 		token.term == _SMALLLER ||token.term == _SIMMALLEROREQUAL||
 		token.term == _EQUAL||token.term == _NOTEQUAL)
 	{
-		lexicalAnalyzer::Term op = token.term;
+		Term op = token.term;
 		get(token);
 		es = additive_expr();
 		if(es > 0) return(es);
@@ -262,7 +263,7 @@ int SemanticAnalyzer::additive_expr(){
 		return(es);
 	while(token.term == _ADD || token.term == _SUB)
 	{
-		lexicalAnalyzer::Term op = token.term;
+		Term op = token.term;
 		get(token);
 		es = term();
 		if(es > 0) return(es);
@@ -279,7 +280,7 @@ int SemanticAnalyzer::term()
 	if(es > 0) return(es);
 	while(token.term == _MUL || token.term == _DIV)
 	{
-		lexicalAnalyzer::Term op = token.term;
+		Term op = token.term;
 		get(token);
 		es = factor();
 		if(es > 0) return(es);
@@ -343,7 +344,7 @@ int SemanticAnalyzer::if_stat()
 	label2 = labelp++;
 	fout<<"\tBE LABEL"<<label2<<endl;
 	fout<<"LABEL"<<label1<<":"<<endl;
-	if(token.term == "else")
+	if(token.term == _ELSE)
 	{
 		get(token);
 		es = statement();

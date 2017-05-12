@@ -23,7 +23,7 @@ using std::ofstream;
  			this->address = address;
  		}
  	};
-    lexicalAnalyzer::Token token;
+    Token token;
     lexicalAnalyzer lexer;
  	string tokenStream;
  	string codeOut;
@@ -34,7 +34,7 @@ using std::ofstream;
 	int	datap;
 
  public:
- 	SemanticAnalyzer(const char* input);
+ 	SemanticAnalyzer(string &input);
  	~SemanticAnalyzer();
  	int analyze();
  	int program();
@@ -57,7 +57,7 @@ using std::ofstream;
  	int name_def(string &name);
  	int lookup(string &name,int &address);
  	void print_vartable();
- 	void get(lexicalAnalyzer::Token &tk);
+ 	void get(Token &tk);
  };
 
 #endif

@@ -2,6 +2,7 @@
 #include "lexicalAnalyzer.h"
 #include "simpleVitualMachine.h"
 #include "simpleVitualMachine.h"
+#include "SemanticAnalyzer.h"
 
 void testSimpleVM(string fileName)
 {
@@ -47,11 +48,18 @@ void testLexAnalyzer(string fileName)
 
 }
 
+void testSemanticAnalyzer(string filename)
+{
+    SemanticAnalyzer sa(filename);
+    sa.analyze();
+}
+
 
 
 int main()
 {
-	testLexAnalyzer("../test/test.c");
-	testSimpleVM("../test/testVirtualMachine.s");
+	//testLexAnalyzer("../test/test.c");
+	//testSimpleVM("../test/testVirtualMachine.s");
+    testSemanticAnalyzer("../test/1.txt");
 	return 0;
 }
