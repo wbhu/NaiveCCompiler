@@ -1,4 +1,4 @@
-# !usr/bin/Python2
+#!usr/bin/Python2
 """
 The command list which brings life to the GUI :P
 """
@@ -9,6 +9,9 @@ import subprocess
 from functools import reduce
 import platform
 from tkFileDialog import asksaveasfilename
+from pykeyboard import PyKeyboard
+import time
+K = PyKeyboard()
 
 class Trie(object):
     def __init__(self):
@@ -74,14 +77,14 @@ def setKeys():
             keywords['naiveC'][key] = list(words)
             for j in words:
                 MyDict.insert(j)
-    keywords['py'] = {}
-    with open('pykeywords.txt', 'r') as f:
+    keywords['naiveAssembly'] = {}
+    with open('naiveAssemblykeywords.txt', 'r') as f:
         for i in f:
             i = i.strip('\n')
             words = map(str, i.split())
             key = words[0]
             words.pop(0)
-            keywords['py'][key] = list(words)
+            keywords['naiveAssembly'][key] = list(words)
             for j in words:
                 MyDict.insert(j)
 
@@ -101,8 +104,8 @@ class FileDetails(object):
         """
         limit tabs to 30
         """
-        self.filenames = ['untitled.cpp'] * 30
-        self.filepaths = [str(os.getcwd()) + 'untitled.cpp'] * 30
+        self.filenames = ['test.nc'] * 30
+        self.filepaths = [str(os.getcwd()) + 'test.nc'] * 30
 
     def filename(self, data):
         self.name = data
@@ -370,7 +373,7 @@ class CodeDisplay(object):
                 pad.tag_remove('comment', coordinates, pos)
                 pad.tag_add('multicomment', coordinates, pos)
                 return 'break'
-        if lang == 'py':
+        if lang == 'naiveAssembly':
             wholetext = pad.get('1.0','end')
             if wholetext.count('"""')%2:
                 pos = GUI.INSERT
@@ -395,7 +398,7 @@ class CodeDisplay(object):
             pad.tag_add('comment', coordinates, pos)
             return 'break'
 
-        if '#' in r and lang == 'py':
+        if '#' in r and lang == 'naiveAssembly':
             coordinates = str(coordinates1[0]) + '.' + str(r.index('#'))
             pad.tag_remove('normal', coordinates, pos)
             pad.tag_remove('default', coordinates, pos)
@@ -532,7 +535,7 @@ class CodeDisplay(object):
             if diff > 0:
                 pad.insert(GUI.INSERT, '\n' + ' ' * 4 * max(indent - 1, 0) + '}')
                 pad.mark_set(GUI.INSERT, '%d.%d' % (cordinate[0], cordinate[1]))
-        if lang == 'py':
+        if lang == 'naiveAssembly':
             coordinates1 = map(int, pad.index(GUI.INSERT).split('.'))
             if coordinates1[0] != 1:
                 coordinates = str(coordinates1[0] - 1) + '.0'
@@ -548,7 +551,7 @@ class CodeDisplay(object):
                 cnt = cnt / 4
                 # check if indentation increasing keywords present
                 f = 0
-                for i in keywords['py']['loops']:
+                for i in keywords['naiveAssembly']['loops']:
                     if i in r:
                         f = 1
                         break
@@ -589,7 +592,7 @@ class CodeDisplay(object):
 
 Display = CodeDisplay()
 
-
+# todo
 class FilesFileMenu(object):
     def Exit(self):
         """
@@ -597,7 +600,7 @@ class FilesFileMenu(object):
         :return:
         """
         exit(0)
-
+    #bug
     def Open(self, app, book, pad, linepad, lang='naiveC'):
         """
         opens a file and displays it in pad
@@ -694,7 +697,7 @@ class EditFileMenu(object):
         except GUI.TclError:
             pass
 
-    def redo(self, pad, linepad, lang='naiveC', *argv):
+    def redo(self, pad, linepad, lang= 'naiveC', *argv):
         """
         redo code
         """
@@ -769,25 +772,28 @@ class RunFilemenu(object):
             """
 
             if platform.system() == 'Linux':
+                print ("in linux")
                 # No need to terminate process in linux
                 x = cmd_file.Save(app, pad)
                 print ("compile")
-                # if x == -1:
-                #     p = subprocess.Popen(
-                #         [
-                #             "g++",
-                #             '-std=C++11',
-                #             'untitled.cpp'],
-                #         stdin=subprocess.PIPE,
-                #         stdout=subprocess.PIPE,
-                #         stderr=subprocess.PIPE)
-                # else:
-                p = subprocess.Popen(
+                if x == -1:
+                    print ("nosave")
+                    p = subprocess.Popen(
+                        [
+                            "ncc",
+                            'untitled.cpp',
+                            '-o a.s'
+                        ],
+                        stdin=subprocess.PIPE,
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE)
+                else:
+                    print (File.path)
+                    p = subprocess.Popen(
                     [
-                        "g++",
-                        '-std=c++11',
+                        "ncc",
                         File.path,
-                        '-o a.out'],
+                        '-o a.s'],
                     stdin=subprocess.PIPE,
                     stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE)
@@ -803,26 +809,29 @@ class RunFilemenu(object):
                 # p.terminate()
                 outputpad.config(state=GUI.DISABLED)
 
-        if lang == 'py':
+        if lang == 'naiveAssembly':
             outputpad.config(state=GUI.NORMAL)
             outputpad.delete('1.0', 'end')
-            outputpad.insert(GUI.INSERT, 'Python programs are interpreted. Press run instead')
+            outputpad.insert(GUI.INSERT, 'naiveAssembly programs are interpreted. Press run instead')
 
-    def run(self, app, pad, outputpad, inputpad, lang='naiveC', *args):
+    def run(self, app, pad, outputpad,lang='naiveC', *args):
         """
         runs python and naiveC program
         need python installed
         naiveC details in compile
         """
+        print (lang)
         global FLAG
         frame2 = args[0]
         Display.show_outputpad(frame2, outputpad)
 
         if lang == 'naiveC':
+            print ("in")
             """
             Windows
             """
             if platform.system() == 'Windows':
+                print ("in windows")
                 outputpad.config(state=GUI.NORMAL)
                 outputpad.delete('1.0', GUI.END)
                 if FLAG:
@@ -844,13 +853,14 @@ class RunFilemenu(object):
             """
             Linux
             """
+            print ("in linux")
             if platform.system() == 'Linux':
                 outputpad.config(state=GUI.NORMAL)
                 outputpad.delete('1.0', GUI.END)
                 if FLAG:
                     # compilation hasnt happened, terminate
                     outputpad.insert(GUI.END, 'Compile First')
-                if not os.path.exists('./a.out'):
+                if not os.path.exists('./a.s'):
                     outputpad.delete('1.0', GUI.END)
                     outputpad.insert(GUI.END, 'Compilation Failed.. Press Compile to get details')
                     return
@@ -858,22 +868,28 @@ class RunFilemenu(object):
                 f = open('input.txt', 'w')
                 f.write(r)
                 f.close()
-                os.system('./a.out <input.txt >output.txt')
+                os.system('nvm ./a.s <input.txt >output.txt')
                 r = open('output.txt').read()
                 outputpad.delete('1.0', GUI.END)
                 outputpad.insert(GUI.END, r)
                 outputpad.config(state=GUI.DISABLED)
 
-        if lang == 'py':
+        if lang == 'naiveAssembly':
             cmd_file.Save(app, pad)
-            r = inputpad.get('1.0', GUI.END)
-            f = open('input.txt', 'w')
-            f.write(r)
-            f.close()
+            # r = inputpad.get('1.0', GUI.END)
+            # f = open('input.txt', 'w')
+            # f.write(r)
+            # f.close()
             outputpad.config(state=GUI.NORMAL)
             f = open('error.txt', 'w')
-            status = subprocess.call('python ' + File.path + '<input.txt >output.txt', shell=True,
+            # status = subprocess.call('nvm' + File.path + '<input.txt >output.txt', shell=True,
+            #                          stderr=f)
+            status = subprocess.Popen('xterm', shell=True,
                                      stderr=f)
+            time.sleep(0.5)
+            print (File.path)
+            K.type_string("nvm ./*.s")
+            K.tap_key(K.enter_key)
             outputpad.config(state=GUI.NORMAL)
             outputpad.delete('1.0', GUI.END)
             outputpad.insert(GUI.END, lang + '\n')

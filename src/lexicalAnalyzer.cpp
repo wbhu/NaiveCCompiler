@@ -63,7 +63,7 @@ void Token::disp()
 // {
 // 	cout << "please select a file to compile" << endl;
 // }
-
+//to do: add flag couldn't open file
 lexicalAnalyzer::lexicalAnalyzer(string fileName)
 {
 	file.open(fileName);

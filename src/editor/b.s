@@ -1,0 +1,3 @@
+LOAD
+IN
+LOADI 8

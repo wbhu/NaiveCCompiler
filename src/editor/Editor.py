@@ -33,7 +33,7 @@ class DisplayWidget():
         self.lb = []
         self.pad = []
         self.linepad = []
-        self.inputpad = []
+        # self.inputpad = []
         self.outputpad = []
         self.W1 = []
 
@@ -51,11 +51,11 @@ class DisplayWidget():
         linepad.config(fg='#f8f8f2', bg='#002b36', insertbackground='white', state=GUI.DISABLED)
         lb = GUI.Listbox(frame_autocomplete, height=4, width=120)
         lb.config(fg='gray', bg='#002b36')
-        inputpad = GUI.Text(W1, height=30, width=30)
-        inputpad.config(fg='white', bg='#002b36', insertbackground='white')
+        # inputpad = GUI.Text(W1, height=30, width=30)
+        # inputpad.config(fg='white', bg='#002b36', insertbackground='white')
 
         W1.add(pad)
-        W1.add(inputpad)
+        # W1.add(inputpad)
 
         def share_bar(*event):
             """
@@ -78,7 +78,7 @@ class DisplayWidget():
         frame_autocomplete.pack(side=GUI.TOP, fill=GUI.BOTH, expand=GUI.YES)
         lb.pack(side=GUI.TOP, fill=GUI.BOTH, expand=GUI.YES)
 
-        self.book.add(primary_frame, text='untitled.cpp')
+        self.book.add(primary_frame, text='test.nc')
 
         self.primary_frame.append(primary_frame)
         self.frame_codepad.append(frame_codepad)
@@ -88,7 +88,7 @@ class DisplayWidget():
         self.lb.append(lb)
         self.pad.append(pad)
         self.linepad.append(linepad)
-        self.inputpad.append(inputpad)
+        # self.inputpad.append(inputpad)
         self.outputpad.append(outputpad)
         self.W1.append(W1)
 
@@ -105,7 +105,7 @@ class DisplayWidget():
         self.lb.pop(index)
         self.pad.pop(index)
         self.linepad.pop(index)
-        self.inputpad.pop(index)
+        # self.inputpad.pop(index)
         self.outputpad.pop(index)
         self.W1.pop(index)
 
@@ -172,8 +172,8 @@ def main():
         lang = newlang
         # r = map(str, app.title().split('.'))
         # if lang == 'naiveC' and r[-1] == 'py':
-        #     app.title('untitled.cpp')
-        #     cmd_file.set_new_filedetails('untitled.cpp', os.getcwd() + '/untitled.cpp')
+        #     app.title('test.nc')
+        #     cmd_file.set_new_filedetails('test.nc', os.getcwd() + '/test.nc')
         #     print File.name, File.path
         # if lang == 'py' and r[-1] == 'cpp':
         #     app.title('untitled.py')
@@ -209,12 +209,12 @@ def main():
     runmenu.add_command(label='Compile - (F7)', command=lambda: run.compile(
         app, code.pad[index()], code.outputpad[index()], lang, code.frame_outputpad[index()]))
     runmenu.add_command(label='Run - (F5)', command=lambda: run.run(
-        app, code.pad[index()], code.outputpad[index()], code.inputpad[index()], lang, code.frame_outputpad[index()]))
+        app, code.pad[index()], code.outputpad[index()], lang, code.frame_outputpad[index()]))
     menubar.add_cascade(label='Run', menu=runmenu)
 
     langmenu = GUI.Menu(menubar, tearoff=0)
     langmenu.add_radiobutton(label='naiveC', command=lambda: change_lang('naiveC'))
-    langmenu.add_radiobutton(label='python', command=lambda: change_lang('py'))
+    langmenu.add_radiobutton(label='naiveAssembly', command=lambda: change_lang('naiveAssembly'))
     menubar.add_cascade(label='Language', menu=langmenu)
 
     app.bind('<Escape>', lambda event: display.escape(
@@ -239,7 +239,7 @@ def main():
     app.bind('<F7>', lambda event: run.compile(
         app, code.pad[index()], code.outputpad[index()], lang, code.frame_outputpad[index()], event))
     app.bind('<F5>', lambda event: run.run(
-        app, code.pad[index()], code.outputpad[index()], code.inputpad[index()],
+        app, code.pad[index()], code.outputpad[index()],
         lang, code.frame_outputpad[index()], event))
 
     app.bind('<Control-r>', lambda event: edit.redo(

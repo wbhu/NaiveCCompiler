@@ -1,1 +1,2 @@
-hello editor
+Please input an integer:
+Program output: 24
