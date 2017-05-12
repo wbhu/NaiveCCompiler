@@ -58,6 +58,18 @@ using std::ofstream;
  	int lookup(string &name,int &address);
  	void print_vartable();
  	void get(Token &tk);
+ 	inline void stop();
+ 	inline void pop();
+ 	inline void br(int label);
+ 	inline void brf(int label);
+ 	inline void operate(Term op);
+ 	inline void store(int address);
+ 	inline void set_label(int label);
+ 	inline void load(int address);
+ 	inline void loadi(string constnum);
+ 	inline void in();
+ 	inline void out();
+
  };
 
 #endif

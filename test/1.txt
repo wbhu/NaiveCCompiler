@@ -1,3 +1,4 @@
+main()
 {
 int i;
 int n;

@@ -10,8 +10,6 @@
 		29D6EDCD1EC48D2C00B86D07 /* lexicalAnalyzer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 29D6EDC41EC48D2C00B86D07 /* lexicalAnalyzer.cpp */; };
 		29D6EDCE1EC48D2C00B86D07 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 29D6EDC61EC48D2C00B86D07 /* main.cpp */; };
 		29D6EDCF1EC48D2C00B86D07 /* SemanticAnalyzer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 29D6EDC71EC48D2C00B86D07 /* SemanticAnalyzer.cpp */; };
-		29D6EDD01EC48D2C00B86D07 /* simpleVitualMachine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 29D6EDC91EC48D2C00B86D07 /* simpleVitualMachine.cpp */; };
-		29D6EDD11EC48D2C00B86D07 /* virtualMachine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 29D6EDCB1EC48D2C00B86D07 /* virtualMachine.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -33,10 +31,6 @@
 		29D6EDC61EC48D2C00B86D07 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../main.cpp; sourceTree = "<group>"; };
 		29D6EDC71EC48D2C00B86D07 /* SemanticAnalyzer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SemanticAnalyzer.cpp; path = ../../SemanticAnalyzer.cpp; sourceTree = "<group>"; };
 		29D6EDC81EC48D2C00B86D07 /* SemanticAnalyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SemanticAnalyzer.h; path = ../../SemanticAnalyzer.h; sourceTree = "<group>"; };
-		29D6EDC91EC48D2C00B86D07 /* simpleVitualMachine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = simpleVitualMachine.cpp; path = ../../simpleVitualMachine.cpp; sourceTree = "<group>"; };
-		29D6EDCA1EC48D2C00B86D07 /* simpleVitualMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = simpleVitualMachine.h; path = ../../simpleVitualMachine.h; sourceTree = "<group>"; };
-		29D6EDCB1EC48D2C00B86D07 /* virtualMachine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = virtualMachine.cpp; path = ../../virtualMachine.cpp; sourceTree = "<group>"; };
-		29D6EDCC1EC48D2C00B86D07 /* virtualMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = virtualMachine.h; path = ../../virtualMachine.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,10 +68,6 @@
 				29D6EDC61EC48D2C00B86D07 /* main.cpp */,
 				29D6EDC71EC48D2C00B86D07 /* SemanticAnalyzer.cpp */,
 				29D6EDC81EC48D2C00B86D07 /* SemanticAnalyzer.h */,
-				29D6EDC91EC48D2C00B86D07 /* simpleVitualMachine.cpp */,
-				29D6EDCA1EC48D2C00B86D07 /* simpleVitualMachine.h */,
-				29D6EDCB1EC48D2C00B86D07 /* virtualMachine.cpp */,
-				29D6EDCC1EC48D2C00B86D07 /* virtualMachine.h */,
 			);
 			path = NCC;
 			sourceTree = "<group>";
@@ -139,10 +129,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				29D6EDD01EC48D2C00B86D07 /* simpleVitualMachine.cpp in Sources */,
 				29D6EDCF1EC48D2C00B86D07 /* SemanticAnalyzer.cpp in Sources */,
 				29D6EDCE1EC48D2C00B86D07 /* main.cpp in Sources */,
-				29D6EDD11EC48D2C00B86D07 /* virtualMachine.cpp in Sources */,
 				29D6EDCD1EC48D2C00B86D07 /* lexicalAnalyzer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -272,6 +260,7 @@
 				29D6EDC31EC48CF400B86D07 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
