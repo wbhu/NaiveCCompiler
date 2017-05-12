@@ -17,16 +17,24 @@ inline bool SemanticAnalyzer::match(Term terminal)
 	else return false;
 }
 
-SemanticAnalyzer::SemanticAnalyzer(string &input):lexer(input)
+SemanticAnalyzer::SemanticAnalyzer(string input):
+lexer(input)
 {
 	labelp = 0;
 	datap = 0;
-	tokenStream = input;
-	string::iterator it = tokenStream.end();
-	while(it != tokenStream.begin() && *it != '.') it--;
-	codeOut = string(tokenStream.begin(),it);
+	string::iterator it = input.end();
+	while(it != input.begin() && *it != '.') it--;
+	codeOut = string(input.begin(),it);
 	codeOut.push_back('.');
 	codeOut.push_back('s');
+}
+
+SemanticAnalyzer::SemanticAnalyzer(string input, string output):
+lexer(input),
+codeOut(output)
+{
+    labelp = 0;
+    datap = 0;
 }
 
 SemanticAnalyzer::~SemanticAnalyzer(){}
@@ -40,6 +48,7 @@ void SemanticAnalyzer::analyze()
 		if(!fout.is_open()) throw 10;
 		get(token);
 		program();
+		if(!match(_OVER)) throw 11;
 		cout<<"编译成功！"<<endl;
 		fout.close();
 	}
@@ -57,6 +66,7 @@ void SemanticAnalyzer::analyze()
 			case 8:cout<<"没有主函数入口！"<<endl;break;
             case 9:cout<<"错误的语句"<<endl;break;
             case 10:cout<<"创建输出文件失败！"<<endl;break;
+            case 11:cout<<"代码非正常结束"<<endl;break;
 			case 22:cout<<"变量重复定义！"<<endl;break;
 			case 23:cout<<"变量未声明！"<<endl;break;
 		}
@@ -121,6 +131,7 @@ void SemanticAnalyzer::program()
 	statement_list();
 	if(!match(_BRACE_R)) throw 2;
 	stop();
+    get(token);
 }
 
 void SemanticAnalyzer::compound_stat()
