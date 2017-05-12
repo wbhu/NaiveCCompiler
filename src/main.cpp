@@ -1,14 +1,11 @@
-#include "virtualMachine.h"
 #include "lexicalAnalyzer.h"
-#include "simpleVitualMachine.h"
-#include "simpleVitualMachine.h"
 #include "SemanticAnalyzer.h"
 
-void testSimpleVM(string fileName)
-{
-	simpleVitualMachine simpleVM(fileName);
-	simpleVM.run();
-}
+// void testSimpleVM(string fileName)
+// {
+// 	simpleVitualMachine simpleVM(fileName);
+// 	simpleVM.run();
+// }
 void testLexAnalyzer(string fileName)
 {
 	lexicalAnalyzer lex(fileName);

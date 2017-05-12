@@ -13,5 +13,6 @@ mkdir build
 cd build
 cmake ..
 make
-./ncc
+sudo make install
+nvm [assembly file name]
 ```
