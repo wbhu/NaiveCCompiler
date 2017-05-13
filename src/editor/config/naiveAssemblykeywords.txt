@@ -1,0 +1,4 @@
+default LOAD LOADI STO BR BRF 
+loops POP ADD SUB MULT DIV EQ NOTEQ GT LES GE LE AND OR NOT
+A_datatypes IN OUT
+P_datatypes LABEL

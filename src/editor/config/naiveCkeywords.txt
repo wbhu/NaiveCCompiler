@@ -1,0 +1,4 @@
+default main print read
+loops for while do if else switch 
+A_datatypes + - * / % ! < > = ( ) { } [ ] , . ; & | <= >= !=
+P_datatypes int float double long string char bool void struct auto NULL
