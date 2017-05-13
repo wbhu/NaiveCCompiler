@@ -48,26 +48,27 @@ void SemanticAnalyzer::analyze()
 		get(token);
 		program();
 		if(!match(_OVER)) throw 11;
-		cout<<"编译成功！"<<endl;
+		cout<<"build succeeded!"<<endl;
 		fout.close();
 	}
 	catch(int err)
 	{
+		cout<<"error:";
 		switch(err)
 		{
-			case 1:cout<<"缺少{！"<<endl;break;
-			case 2:cout<<"缺少}！"<<endl;break;
-			case 3:cout<<"缺少标识符！"<<endl;break;
-			case 4:cout<<"少分号！"<<endl;break;
-			case 5:cout<<"缺少（！"<<endl;break;
-			case 6:cout<<"缺少）！"<<endl;break;
-			case 7:cout<<"缺少操作数！"<<endl;break;
-			case 8:cout<<"没有主函数入口！"<<endl;break;
-            case 9:cout<<"错误的语句"<<endl;break;
-            case 10:cout<<"创建输出文件失败！"<<endl;break;
-            case 11:cout<<"代码非正常结束"<<endl;break;
-			case 22:cout<<"变量重复定义！"<<endl;break;
-			case 23:cout<<"变量未声明！"<<endl;break;
+			case 1:cout<<"expected \'{\'!"<<endl;break;
+			case 2:cout<<"expected \'}\'!"<<endl;break;
+			case 3:cout<<"expected identifier！"<<endl;break;
+			case 4:cout<<"expected \';\'!"<<endl;break;
+			case 5:cout<<"expected \'(\'!"<<endl;break;
+			case 6:cout<<"expected \')\'!"<<endl;break;
+			case 7:cout<<"expected oprand!"<<endl;break;
+			case 8:cout<<"expected \"main\"!"<<endl;break;
+            case 9:cout<<"bad statement!"<<endl;break;
+            case 10:cout<<"failed to create output file!"<<endl;break;
+            case 11:cout<<"unexpected end of code!"<<endl;break;
+			case 22:cout<<"redefination of variable!"<<endl;break;
+			case 23:cout<<"undefined variable!"<<endl;break;
 		}
 	}
 }
@@ -394,12 +395,12 @@ inline void SemanticAnalyzer::pop()
 
 inline void SemanticAnalyzer::br(int label)
 {
-	fout<<"\tBR "<<label<<endl;
+	fout<<"\tJMP "<<label<<endl;
 }
 
 inline void SemanticAnalyzer::brf(int label)
 {
-	fout<<"\tBRF "<<label<<endl;
+	fout<<"\tJNZ "<<label<<endl;
 }
 
 inline void SemanticAnalyzer::operate(Term op)
@@ -433,7 +434,7 @@ inline void SemanticAnalyzer::load(int address)
 
 inline void SemanticAnalyzer::loadi(string constnum)
 {
-	fout<<"\tLOADI "<<constnum<<endl;
+	fout<<"\tIMM "<<constnum<<endl;
 }
 
 inline void SemanticAnalyzer::in()
