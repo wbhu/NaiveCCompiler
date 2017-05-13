@@ -739,9 +739,14 @@ class RunFilemenu(object):
                 if x == -1:
                     print ("nosave")
                     p = subprocess.Popen('xterm', shell=True)
-                    time.sleep(0.5)
+                    time.sleep(1)
                     # print (File.path)
-                    K.type_string("ncc ./test.nc -o a.s")
+                    K.type_string("ncc")
+                    time.sleep(0.5)
+                    K.type_string(" ./test.nc")
+                    time.sleep(0.5)
+                    K.type_string("  -o a.s")
+                    time.sleep(0.5)
                     K.tap_key(K.enter_key)
                     # p = subprocess.Popen(
                     #     [
@@ -755,9 +760,14 @@ class RunFilemenu(object):
                 else:
                     print ("nosave")
                     p = subprocess.Popen('xterm', shell=True)
-                    time.sleep(0.5)
+                    time.sleep(1)
                     # print (File.path)
-                    K.type_string("ncc ./test.nc -o a.s")
+                    K.type_string("ncc")
+                    time.sleep(0.5)
+                    K.type_string(" ./test.nc")
+                    time.sleep(0.5)
+                    K.type_string("  -o a.s")
+                    time.sleep(0.5)
                     K.tap_key(K.enter_key)
                 status = p.communicate()[1]
                 outputpad.config(state=GUI.NORMAL)
@@ -818,7 +828,7 @@ class RunFilemenu(object):
             print ("in linux")
             if platform.system() == 'Linux':
                 p = subprocess.Popen('xterm', shell=True)
-                time.sleep(0.5)
+                time.sleep(2)
                 print (File.path)
                 K.type_string("nvm ./a.s")
                 K.tap_key(K.enter_key)
@@ -853,7 +863,7 @@ class RunFilemenu(object):
             #                          stderr=f)
             status = subprocess.Popen('xterm', shell=True,
                                      stderr=f)
-            time.sleep(0.5)
+            time.sleep(2)
             print (File.path)
             K.type_string("nvm ./*.s")
             K.tap_key(K.enter_key)
