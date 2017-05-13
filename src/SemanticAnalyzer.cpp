@@ -13,8 +13,7 @@ using std::ofstream;
 
 inline bool SemanticAnalyzer::match(Term terminal)
 {
-	if(token.term == terminal) return true;
-	else return false;
+    return (token.term == terminal);
 }
 
 SemanticAnalyzer::SemanticAnalyzer(string input):
@@ -187,7 +186,7 @@ void SemanticAnalyzer::expression()
 		}
 		else
 		{
-			lexer.last();
+			lexer.last();//回退一步
 			bool_expr();
 		}
 	}
@@ -311,7 +310,7 @@ void SemanticAnalyzer::for_stat()
 	get(token);
 	expression();
 	label2 = labelp++;
-	brf(label2);//false transfer->end
+	brf(label2);//false ->end
 	label3 = labelp++;
 	br(label3);//->loop body
 	if(!match(_SEMICOLON)) throw 4;
