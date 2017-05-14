@@ -12,7 +12,7 @@
 #include <iostream>
 
 
-// #define _DEBUG
+#define _DEBUG
 using namespace std;
 
 simpleVitualMachine::simpleVitualMachine()
@@ -100,7 +100,7 @@ int simpleVitualMachine::run()
 		{
 			calculateStack.push( data[ stoi(code[++pc]) ] );
 		}
-		else if (code[pc] == "LOADI")
+		else if (code[pc] == "IMM")
 		{
 			calculateStack.push(stoi(code[++pc]));
 		}
@@ -144,11 +144,11 @@ int simpleVitualMachine::run()
 			calculateStack.pop();
 			calculateStack.push( tmp2 / tmp1);
 		}
-		else if (code[pc] == "BR")
+		else if (code[pc] == "JMP")
 		{
 			pc = label[ stoi(code[++pc]) ] - 1;
 		}
-		else if (code[pc] == "BRF")
+		else if (code[pc] == "JZ")
 		{
 			int tmp = calculateStack.top();
 			calculateStack.pop();
