@@ -400,7 +400,7 @@ inline void SemanticAnalyzer::br(int label)
 
 inline void SemanticAnalyzer::brf(int label)
 {
-	fout<<"\tJNZ "<<label<<endl;
+	fout<<"\tJZ "<<label<<endl;
 }
 
 inline void SemanticAnalyzer::operate(Term op)
