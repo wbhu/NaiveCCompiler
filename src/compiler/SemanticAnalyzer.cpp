@@ -3,7 +3,7 @@
 * @Email: leifzhu@foxmail.com
 * @Date:   2017-05-11 18:46:41
 * @Last Modified by:   Leif
-* @Last Modified time: 2017-05-15 09:47:18
+* @Last Modified time: 2017-05-15 11:18:44
 */
 #include <string>
 #include <iostream>
@@ -20,7 +20,7 @@ using std::ofstream;
 
 inline bool SemanticAnalyzer::match(Term terminal)
 {
-    return (token.term == terminal);
+	return (token.term == terminal);
 }
 
 SemanticAnalyzer::SemanticAnalyzer(string input):
@@ -39,8 +39,8 @@ SemanticAnalyzer::SemanticAnalyzer(string input, string output):
 lexer(input),
 codeOut(output)
 {
-    labelp = 0;
-    datap = 0;
+	labelp = 0;
+	datap = 0;
 }
 
 SemanticAnalyzer::~SemanticAnalyzer(){}
@@ -71,25 +71,16 @@ void SemanticAnalyzer::analyze()
 			case 6:cout<<"expected \')\'!"<<endl;break;
 			case 7:cout<<"expected oprand!"<<endl;break;
 			case 8:cout<<"expected \"main\"!"<<endl;break;
-            case 9:cout<<"bad statement!"<<endl;break;
-            case 10:cout<<"failed to create output file!"<<endl;break;
-            case 11:cout<<"unexpected end of code!"<<endl;break;
-			case 22:cout<<"redefination of variable!"<<endl;break;
-			case 23:cout<<"undefined variable!"<<endl;break;
+			case 9:cout<<"bad statement!"<<endl;break;
+			case 10:cout<<"failed to create output file!"<<endl;break;
+			case 11:cout<<"unexpected end of code!"<<endl;break;
+			case 12:cout<<"redefination of variable!"<<endl;break;
+			case 13:cout<<"undefined variable!"<<endl;break;
 		}
 	}
 }
 
 
-void SemanticAnalyzer::print_vartable()
-{
-	cout<<"\t符号表"<<endl;
-	cout<<"\t名字\t地址"<<endl;
-	for(int i = 0;i < varTable.size();i++)
-	{
-		cout<<"\t"<<varTable[i].name<<'\t'<<varTable[i].address<<endl;
-	}
-}
 
 void SemanticAnalyzer::get(Token &tk)
 {
@@ -99,11 +90,11 @@ void SemanticAnalyzer::get(Token &tk)
 
 void SemanticAnalyzer::name_def(string &name)
 {
-    for(unsigned long i = 0 ;i < varTable.size(); i++)
+	for(unsigned long i = 0 ;i < varTable.size(); i++)
 	{
 		if(varTable[i].name == name)
 		{
-			throw 22;
+			throw 12;
 		}
 	}
 	varTable.push_back(Record(name,datap));
@@ -120,7 +111,7 @@ void SemanticAnalyzer::lookup(string &name,int &address)
 			return;
 		}
 	}
-	throw 23;
+	throw 13;
 }
 
 
@@ -138,7 +129,7 @@ void SemanticAnalyzer::program()
 	statement_list();
 	if(!match(_BRACE_R)) throw 2;
 	stop();
-    get(token);
+	get(token);
 }
 
 void SemanticAnalyzer::compound_stat()
@@ -257,7 +248,7 @@ void SemanticAnalyzer::factor()
 	}
 	else if(match(_NUM))
 	{
-		loadi(token.value);
+		imm(token.value);
 		get(token);
 	}
 	else throw 7;
@@ -271,11 +262,11 @@ void SemanticAnalyzer::if_stat()
 	expression();
 	if(!match(_PARENTHESE_R)) throw 6;
 	int label1 = labelp++;
-	brf(label1);
+	jz(label1);
 	get(token);
 	statement();
 	int label2 = labelp++;
-	br(label2);
+	jmp(label2);
 	set_label(label1);
 	if(match(_ELSE))
 	{
@@ -295,10 +286,10 @@ void SemanticAnalyzer::while_stat()
 	expression();
 	if(!match(_PARENTHESE_R)) throw 6;
 	int label2 = labelp++;
-	brf(label2);
+	jz(label2);
 	get(token);
 	statement();
-	br(label1);
+	jmp(label1);
 	set_label(label2);
 }
 
@@ -318,9 +309,9 @@ void SemanticAnalyzer::for_stat()
 	get(token);
 	expression();
 	label2 = labelp++;
-	brf(label2);//false ->end
+	jz(label2);//false ->end
 	label3 = labelp++;
-	br(label3);//->loop body
+	jmp(label3);//->loop body
 	if(!match(_SEMICOLON)) throw 4;
 
 	label4 = labelp++;
@@ -328,16 +319,25 @@ void SemanticAnalyzer::for_stat()
 	get(token);
 	expression();
 	pop();
-	br(label1);
+	jmp(label1);
 	if(!match(_PARENTHESE_R)) throw 6;
 
 	set_label(label3);
 	get(token);
 	statement();
-	br(label4);
+	jmp(label4);
 	set_label(label2);
 }
 
+void SemanticAnalyzer::print_vartable()
+{
+	cout<<"\tvariable table"<<endl;
+	cout<<"\tname\taddress"<<endl;
+	for(int i = 0;i < varTable.size();i++)
+	{
+		cout<<"\t"<<varTable[i].name<<'\t'<<varTable[i].address<<endl;
+	}
+}
 /* <print_stat> := print<expression>@OUT 
 OUT指令将栈顶元素输出*/
 
@@ -400,12 +400,12 @@ inline void SemanticAnalyzer::pop()
 	fout<<"\tPOP"<<endl;
 }
 
-inline void SemanticAnalyzer::br(int label)
+inline void SemanticAnalyzer::jmp(int label)
 {
 	fout<<"\tJMP "<<label<<endl;
 }
 
-inline void SemanticAnalyzer::brf(int label)
+inline void SemanticAnalyzer::jz(int label)
 {
 	fout<<"\tJZ "<<label<<endl;
 }
@@ -439,7 +439,7 @@ inline void SemanticAnalyzer::load(int address)
 	fout<<"\tLOAD "<<address<<endl;
 }
 
-inline void SemanticAnalyzer::loadi(string constnum)
+inline void SemanticAnalyzer::imm(string constnum)
 {
 	fout<<"\tIMM "<<constnum<<endl;
 }
