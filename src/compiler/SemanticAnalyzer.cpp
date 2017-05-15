@@ -3,7 +3,7 @@
 * @Email: leifzhu@foxmail.com
 * @Date:   2017-05-11 18:46:41
 * @Last Modified by:   Leif
-* @Last Modified time: 2017-05-15 11:18:44
+* @Last Modified time: 2017-05-15 15:55:36
 */
 #include <string>
 #include <iostream>
@@ -18,16 +18,11 @@ using std::endl;
 using std::ifstream;
 using std::ofstream;
 
-inline bool SemanticAnalyzer::match(Term terminal)
-{
-	return (token.term == terminal);
-}
-
 SemanticAnalyzer::SemanticAnalyzer(string input):
 lexer(input)
 {
-	labelp = 0;
-	datap = 0;
+	labelTag = 0;
+	dataAddress = 0;
 	string::iterator it = input.end();
 	while(it != input.begin() && *it != '.') it--;
 	codeOut = string(input.begin(),it);
@@ -39,8 +34,8 @@ SemanticAnalyzer::SemanticAnalyzer(string input, string output):
 lexer(input),
 codeOut(output)
 {
-	labelp = 0;
-	datap = 0;
+	labelTag = 0;
+	dataAddress = 0;
 }
 
 SemanticAnalyzer::~SemanticAnalyzer(){}
@@ -88,7 +83,7 @@ void SemanticAnalyzer::get(Token &tk)
 	//cout<<token.term<<token.value<<endl;
 }
 
-void SemanticAnalyzer::name_def(string &name)
+void SemanticAnalyzer::nameDef(string &name)
 {
 	for(unsigned long i = 0 ;i < varTable.size(); i++)
 	{
@@ -97,8 +92,8 @@ void SemanticAnalyzer::name_def(string &name)
 			throw 12;
 		}
 	}
-	varTable.push_back(Record(name,datap));
-	datap++;
+	varTable.push_back(Record(name,dataAddress));
+	dataAddress++;
 }
 
 void SemanticAnalyzer::lookup(string &name,int &address)
@@ -125,34 +120,34 @@ void SemanticAnalyzer::program()
 	get(token);
 	if(!match(_BRACE_L)) throw 1;
 	get(token);
-	declaration_list();
-	statement_list();
+	declarationList();
+	statementList();
 	if(!match(_BRACE_R)) throw 2;
 	stop();
 	get(token);
 }
 
-void SemanticAnalyzer::compound_stat()
+void SemanticAnalyzer::compoundStat()
 {
 	get(token);
-	statement_list();
+	statementList();
 	if(!match(_BRACE_R)) throw 2;
 	get(token);
 }
 
 void SemanticAnalyzer::statement()
 {
-	if(match(_IF)) if_stat();
-	else if(match(_WHILE)) while_stat();
-	else if(match(_FOR)) for_stat();
-	else if(match(_READ)) read_stat();
-	else if(match(_PRINT)) print_stat();
-	else if(match(_BRACE_L)) compound_stat();
-	else if(match(_ID) || match(_NUM) || match(_PARENTHESE_L)) expression_stat();
+	if(match(_IF)) ifStat();
+	else if(match(_WHILE)) whileStat();
+	else if(match(_FOR)) forStat();
+	else if(match(_READ)) readStat();
+	else if(match(_PRINT)) printStat();
+	else if(match(_BRACE_L)) compoundStat();
+	else if(match(_ID) || match(_NUM) || match(_PARENTHESE_L)) expressionStat();
 	else throw 9;
 }
 
-void SemanticAnalyzer::expression_stat()
+void SemanticAnalyzer::expressionStat()
 {
 	if(match(_SEMICOLON))
 	{
@@ -180,33 +175,33 @@ void SemanticAnalyzer::expression()
 			int address;
 			lookup(token.value,address);
 			get(token);
-			bool_expr();
+			boolExpr();
 			store(address);
 		}
 		else
 		{
 			lexer.last();//回退一步
-			bool_expr();
+			boolExpr();
 		}
 	}
-	else bool_expr();
+	else boolExpr();
 }
 
-void SemanticAnalyzer::bool_expr()
+void SemanticAnalyzer::boolExpr()
 {
-	additive_expr();
+	additiveExpr();
 	if(match(_BIGGER)||match(_BIGGEROREQUAL)||
 		match(_SMALLLER) ||match(_SIMMALLEROREQUAL)||
 		match(_EQUAL)||match(_NOTEQUAL))
 	{
 		Term op = token.term;
 		get(token);
-		additive_expr();
+		additiveExpr();
 		operate(op);
 	}
 }
 
-void SemanticAnalyzer::additive_expr()
+void SemanticAnalyzer::additiveExpr()
 {
 	term();
 	while(match(_ADD) || match(_SUB))
@@ -254,46 +249,46 @@ void SemanticAnalyzer::factor()
 	else throw 7;
 }
 
-void SemanticAnalyzer::if_stat()
+void SemanticAnalyzer::ifStat()
 {
 	get(token);
 	if(!match(_PARENTHESE_L)) throw 5;
 	get(token);
 	expression();
 	if(!match(_PARENTHESE_R)) throw 6;
-	int label1 = labelp++;
+	int label1 = labelTag++;
 	jz(label1);
 	get(token);
 	statement();
-	int label2 = labelp++;
+	int label2 = labelTag++;
 	jmp(label2);
-	set_label(label1);
+	setLabel(label1);
 	if(match(_ELSE))
 	{
 		get(token);
 		statement();
 	}
-	set_label(label2);
+	setLabel(label2);
 }
 
-void SemanticAnalyzer::while_stat()
+void SemanticAnalyzer::whileStat()
 {
-	int label1 = labelp++;
-	set_label(label1);
+	int label1 = labelTag++;
+	setLabel(label1);
 	get(token);
 	if(!match(_PARENTHESE_L)) throw 5;
 	get(token);
 	expression();
 	if(!match(_PARENTHESE_R)) throw 6;
-	int label2 = labelp++;
+	int label2 = labelTag++;
 	jz(label2);
 	get(token);
 	statement();
 	jmp(label1);
-	set_label(label2);
+	setLabel(label2);
 }
 
-void SemanticAnalyzer::for_stat()
+void SemanticAnalyzer::forStat()
 {
 	int label1,label2,label3,label4;
 	get(token);
@@ -304,32 +299,32 @@ void SemanticAnalyzer::for_stat()
 	pop();
 	if(!match(_SEMICOLON)) throw 4;
 	
-	label1 = labelp++;
-	set_label(label1);//set label1 for loop condition
+	label1 = labelTag++;
+	setLabel(label1);//set label1 for loop condition
 	get(token);
 	expression();
-	label2 = labelp++;
+	label2 = labelTag++;
 	jz(label2);//false ->end
-	label3 = labelp++;
+	label3 = labelTag++;
 	jmp(label3);//->loop body
 	if(!match(_SEMICOLON)) throw 4;
 
-	label4 = labelp++;
-	set_label(label4);
+	label4 = labelTag++;
+	setLabel(label4);
 	get(token);
 	expression();
 	pop();
 	jmp(label1);
 	if(!match(_PARENTHESE_R)) throw 6;
 
-	set_label(label3);
+	setLabel(label3);
 	get(token);
 	statement();
 	jmp(label4);
-	set_label(label2);
+	setLabel(label2);
 }
 
-void SemanticAnalyzer::print_vartable()
+void SemanticAnalyzer::printVartable()
 {
 	cout<<"\tvariable table"<<endl;
 	cout<<"\tname\taddress"<<endl;
@@ -341,7 +336,7 @@ void SemanticAnalyzer::print_vartable()
 /* <print_stat> := print<expression>@OUT 
 OUT指令将栈顶元素输出*/
 
-void SemanticAnalyzer::print_stat()
+void SemanticAnalyzer::printStat()
 {
 	get(token);
 	expression();
@@ -350,7 +345,7 @@ void SemanticAnalyzer::print_stat()
 	get(token);
 }
 
-void SemanticAnalyzer::read_stat()
+void SemanticAnalyzer::readStat()
 {
 	int address;
 	get(token);
@@ -364,25 +359,25 @@ void SemanticAnalyzer::read_stat()
 	get(token);
 }
 
-void SemanticAnalyzer::declaration_stat()
+void SemanticAnalyzer::declarationStat()
 {
 	get(token);
 	if(!match(_ID)) throw 3;
-	name_def(token.value);
+	nameDef(token.value);
 	get(token);
 	if(!match(_SEMICOLON)) throw 4;
 	get(token);
 }
 
-void SemanticAnalyzer::declaration_list()
+void SemanticAnalyzer::declarationList()
 {
 	while(match(_INT))
 	{
-		declaration_stat();
+		declarationStat();
 	}
 }
 
-void SemanticAnalyzer::statement_list()
+void SemanticAnalyzer::statementList()
 {
 	while(!match(_BRACE_R))
 	{
@@ -429,7 +424,7 @@ inline void SemanticAnalyzer::store(int address)
 	fout<<"\tSTO "<<address<<endl;
 }
 
-inline void SemanticAnalyzer::set_label(int label)
+inline void SemanticAnalyzer::setLabel(int label)
 {
 	fout<<"LABEL"<<label<<":"<<endl;
 }
@@ -451,4 +446,9 @@ inline void SemanticAnalyzer::in()
 inline void SemanticAnalyzer::out()
 {
 	fout<<"\tOUT"<<endl;
+}
+
+inline bool SemanticAnalyzer::match(Term terminal)
+{
+	return (token.term == terminal);
 }
