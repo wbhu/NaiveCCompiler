@@ -12,7 +12,7 @@
 #include <iostream>
 
 
-#define _DEBUG
+// #define _DEBUG
 using namespace std;
 
 simpleVitualMachine::simpleVitualMachine()

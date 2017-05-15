@@ -7,7 +7,7 @@
 	LOAD 1
 	IMM 5
 	GT
-	JNZ 0
+	JZ 0
 	IMM 1
 	STO 0
 	POP
@@ -15,7 +15,7 @@ LABEL1:
 	LOAD 0
 	LOAD 1
 	LES
-	JNZ 2
+	JZ 2
 	JMP 3
 LABEL4:
 	LOAD 0
@@ -38,7 +38,7 @@ LABEL6:
 	LOAD 1
 	IMM 0
 	GE
-	JNZ 7
+	JZ 7
 	LOAD 1
 	OUT
 	LOAD 1
