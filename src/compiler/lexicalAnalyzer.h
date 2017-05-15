@@ -33,8 +33,8 @@ enum Term
 	_ADD,           		// +
 	_SUB,            		// -
 	_MUL,           		// *
-	_MOD,         		 // %
 	_DIV,           		// /
+	_MOD,         		 // %
 	_BIGGER,        		// >
 	_SMALLLER,      		// <
 	_COMMA,     		// ,

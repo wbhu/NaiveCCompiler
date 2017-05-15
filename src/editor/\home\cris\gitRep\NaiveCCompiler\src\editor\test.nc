@@ -7,7 +7,7 @@ main()
 	read n;
 	if(n > 5)
 	{
-		for(i = 1;i <= n;i = i+ 1)
+		for(i = 1;i < n;i = i+ 1)
 		{
 			j = j * i;
 		}
