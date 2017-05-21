@@ -3,7 +3,7 @@
 * @Email: leifzhu@foxmail.com
 * @Date:   2017-05-11 18:46:41
 * @Last Modified by:   Leif
-* @Last Modified time: 2017-05-21 16:16:22
+* @Last Modified time: 2017-05-21 16:43:52
 */
 #include <string>
 #include <iostream>
@@ -380,7 +380,7 @@ void SemanticAnalyzer::readStat()
 	get(token);
 }
 
-void SemanticAnalyzer::declarationStat()
+void SemanticAnalyzer::idList()
 {
 	if(!match(_ID)) throw 3;
 	varDef(token.value);
@@ -400,7 +400,8 @@ void SemanticAnalyzer::declarationList()
 {
 	while(match(_INT))
 	{
-		declarationStat();
+		get(token);
+		idList();
 	}
 }
 

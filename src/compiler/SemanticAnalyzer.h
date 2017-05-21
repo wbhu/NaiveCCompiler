@@ -3,7 +3,7 @@
 * @Email: leifzhu@foxmail.com
 * @Date:   2017-05-11 14:48:58
 * @Last Modified by:   Leif
-* @Last Modified time: 2017-05-21 15:40:52
+* @Last Modified time: 2017-05-21 16:44:18
 */
 #ifndef _SEMATICANALYZER_H_
 #define _SEMATICANALYZER_H_
@@ -74,7 +74,7 @@ public:
 	void forStat();
 	void printStat();
 	void readStat();
-	void declarationStat();
+	void idList();
 	void declarationList();
 	void statementList();
 };
