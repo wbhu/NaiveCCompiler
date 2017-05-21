@@ -14,7 +14,7 @@
 LABEL1:
 	LOAD 0
 	LOAD 1
-	LES
+	LE
 	JZ 2
 	JMP 3
 LABEL4:
