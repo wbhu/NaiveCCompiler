@@ -3,7 +3,7 @@
 * @Email: leifzhu@foxmail.com
 * @Date:   2017-05-11 14:48:58
 * @Last Modified by:   Leif
-* @Last Modified time: 2017-05-15 15:54:19
+* @Last Modified time: 2017-05-21 15:40:52
 */
 #ifndef _SEMATICANALYZER_H_
 #define _SEMATICANALYZER_H_
@@ -43,6 +43,7 @@ public:
 	SemanticAnalyzer(string input);
 	SemanticAnalyzer(string input, string output);
 	~SemanticAnalyzer();
+	void analyze();
 	inline bool match(Term terminal);
 	inline void stop();
 	inline void pop();
@@ -55,14 +56,17 @@ public:
 	inline void imm(string constnum);
 	inline void in();
 	inline void out();
-	void analyze();
+	inline void varDef(string &name);
+	inline void lookup(string &name,int &address);
+	inline void printVartable();
+	inline void get(Token &tk);
 	void program();
 	void compoundStat();
 	void statement();
 	void expressionStat();
 	void expression();
 	void boolExpr();
-	void additiveExpr();
+	void arithmeticExpr();
 	void term();
 	void factor();
 	void ifStat();
@@ -73,10 +77,6 @@ public:
 	void declarationStat();
 	void declarationList();
 	void statementList();
-	void nameDef(string &name);
-	void lookup(string &name,int &address);
-	void printVartable();
-	void get(Token &tk);
 };
 
 #endif

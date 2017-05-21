@@ -3,7 +3,7 @@
 * @Email: leifzhu@foxmail.com
 * @Date:   2017-05-11 18:46:41
 * @Last Modified by:   Leif
-* @Last Modified time: 2017-05-15 15:55:36
+* @Last Modified time: 2017-05-21 16:16:22
 */
 #include <string>
 #include <iostream>
@@ -83,7 +83,7 @@ void SemanticAnalyzer::get(Token &tk)
 	//cout<<token.term<<token.value<<endl;
 }
 
-void SemanticAnalyzer::nameDef(string &name)
+void SemanticAnalyzer::varDef(string &name)
 {
 	for(unsigned long i = 0 ;i < varTable.size(); i++)
 	{
@@ -129,7 +129,6 @@ void SemanticAnalyzer::program()
 
 void SemanticAnalyzer::compoundStat()
 {
-	get(token);
 	statementList();
 	if(!match(_BRACE_R)) throw 2;
 	get(token);
@@ -137,13 +136,40 @@ void SemanticAnalyzer::compoundStat()
 
 void SemanticAnalyzer::statement()
 {
-	if(match(_IF)) ifStat();
-	else if(match(_WHILE)) whileStat();
-	else if(match(_FOR)) forStat();
-	else if(match(_READ)) readStat();
-	else if(match(_PRINT)) printStat();
-	else if(match(_BRACE_L)) compoundStat();
-	else if(match(_ID) || match(_NUM) || match(_PARENTHESE_L)) expressionStat();
+	if(match(_IF))
+	{
+		get(token);
+		ifStat();
+	}
+	else if(match(_WHILE))
+	{
+		get(token);
+		whileStat();
+	}
+	else if(match(_FOR))
+	{
+		get(token);
+		forStat();
+	}
+	else if(match(_READ))
+	{
+		get(token);
+		readStat();
+	}
+	else if(match(_PRINT))
+	{
+		get(token);
+		printStat();
+	}
+	else if(match(_BRACE_L))
+	{
+		get(token);
+		compoundStat();
+	}
+	else if(match(_ID) || match(_NUM) || match(_PARENTHESE_L)) 
+	{
+		expressionStat();
+	}
 	else throw 9;
 }
 
@@ -189,19 +215,19 @@ void SemanticAnalyzer::expression()
 
 void SemanticAnalyzer::boolExpr()
 {
-	additiveExpr();
+	arithmeticExpr();
 	if(match(_BIGGER)||match(_BIGGEROREQUAL)||
 		match(_SMALLLER) ||match(_SIMMALLEROREQUAL)||
 		match(_EQUAL)||match(_NOTEQUAL))
 	{
 		Term op = token.term;
 		get(token);
-		additiveExpr();
+		arithmeticExpr();
 		operate(op);
 	}
 }
 
-void SemanticAnalyzer::additiveExpr()
+void SemanticAnalyzer::arithmeticExpr()
 {
 	term();
 	while(match(_ADD) || match(_SUB))
@@ -251,7 +277,6 @@ void SemanticAnalyzer::factor()
 
 void SemanticAnalyzer::ifStat()
 {
-	get(token);
 	if(!match(_PARENTHESE_L)) throw 5;
 	get(token);
 	expression();
@@ -275,7 +300,6 @@ void SemanticAnalyzer::whileStat()
 {
 	int label1 = labelTag++;
 	setLabel(label1);
-	get(token);
 	if(!match(_PARENTHESE_L)) throw 5;
 	get(token);
 	expression();
@@ -291,7 +315,6 @@ void SemanticAnalyzer::whileStat()
 void SemanticAnalyzer::forStat()
 {
 	int label1,label2,label3,label4;
-	get(token);
 	if(!match(_PARENTHESE_L)) throw 5;
 
 	get(token);
@@ -338,7 +361,6 @@ OUT指令将栈顶元素输出*/
 
 void SemanticAnalyzer::printStat()
 {
-	get(token);
 	expression();
 	if(token.term != _SEMICOLON) throw 4;
 	out();
@@ -348,7 +370,6 @@ void SemanticAnalyzer::printStat()
 void SemanticAnalyzer::readStat()
 {
 	int address;
-	get(token);
 	if(!match(_ID)) throw 3;
 	lookup(token.value,address);
 	in();
@@ -361,10 +382,16 @@ void SemanticAnalyzer::readStat()
 
 void SemanticAnalyzer::declarationStat()
 {
-	get(token);
 	if(!match(_ID)) throw 3;
-	nameDef(token.value);
+	varDef(token.value);
 	get(token);
+	while(match(_COMMA))
+	{
+        get(token);
+        if(!match(_ID)) throw 3;
+		varDef(token.value);
+		get(token);
+	}
 	if(!match(_SEMICOLON)) throw 4;
 	get(token);
 }

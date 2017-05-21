@@ -3,7 +3,7 @@
 * @Email: leifzhu@foxmail.com
 * @Date:   2017-05-14 18:12:29
 * @Last Modified by:   Leif
-* @Last Modified time: 2017-05-14 20:53:38
+* @Last Modified time: 2017-05-21 15:14:53
 */
 #include "lexicalAnalyzer.h"
 #include <iostream>
@@ -20,8 +20,7 @@ using std::vector;
 
 lexicalAnalyzer::lexicalAnalyzer(string inputFileName):
 keyword{"if","else","for","while","int","read","print","main"},
-singleDel("+-*(){};,:"),
-doubleDel("><=!"),
+delimiters("+-*(){};,:><=!"),
 fin(inputFileName),
 lineTag(1),
 oldLineTag(1),
@@ -58,8 +57,7 @@ Token lexicalAnalyzer::next()
 			}
 		}
 
-		if(!fin.eof()&&find(singleDel.begin(),singleDel.end(),ch) ==  singleDel.end()
-			&&find(doubleDel.begin(),doubleDel.end(),ch) == doubleDel.end()
+		if(!fin.eof()&&find(delimiters.begin(),delimiters.end(),ch) ==  delimiters.end()
 			&&ch != ' ' && ch != '\t' && ch != '\n')
 		{
 			throw 42; //illegal identifier
@@ -88,8 +86,7 @@ Token lexicalAnalyzer::next()
 				if(fin.eof()) break;
 			}
 		}
-		if(!fin.eof()&&find(singleDel.begin(),singleDel.end(),ch) ==  singleDel.end()
-			&&find(doubleDel.begin(),doubleDel.end(),ch) == doubleDel.end()
+		if(!fin.eof()&&find(delimiters.begin(),delimiters.end(),ch) ==  delimiters.end()
 			&&ch != ' ' && ch != '\t' && ch != '\n')
 		{
 			throw 42; //illegal identifier
@@ -97,45 +94,52 @@ Token lexicalAnalyzer::next()
 		token.type = "NUM";
 	}
 
-	else if(find(singleDel.begin(),singleDel.end(),ch) !=  singleDel.end())
+	else 
 	{
-		token.value.push_back(ch);
-		token.type = token.value;
-		fin.get(ch);
-	}
-
-	else if(find(doubleDel.begin(),doubleDel.end(),ch) !=  doubleDel.end())
-	{
-		token.value.push_back(ch);
-		fin.get(ch);
-		if(!fin.eof())
+		string::iterator it = find(delimiters.begin(),delimiters.end(),ch);
+		string::iterator itPartition = find(delimiters.begin(),delimiters.end(),'>');
+		if(it < itPartition)
 		{
-			if(ch == '=')
-			{
-				token.value.push_back(ch);
-				token.type = token.value;
-				fin.get(ch);
-			}
-            else token.type = token.value;
-
+			token.value.push_back(ch);
+			token.type = token.value;
+			fin.get(ch);
 		}
-		else token.type = token.value;
+		else if(it < delimiters.end())
+		{
+			token.value.push_back(ch);
+			fin.get(ch);
+			if(!fin.eof())
+			{
+				if(ch == '=')
+				{
+					token.value.push_back(ch);
+					token.type = token.value;
+					fin.get(ch);
+				}
+				else token.type = token.value;
+
+			}
+			else token.type = token.value;
+		}
+		else
+		{
+			throw 43; // unrecognizable token
+		}
 	}
-	else
-	{
-		throw 43; // unrecognizable token
-	}
-    return token;
+	return token;
 }
+
 void lexicalAnalyzer::back()
 {
 	fin.seekg(oldOffset,std::ios::beg);
 	lineTag = oldLineTag;
 }
+
 unsigned int lexicalAnalyzer::getLineTag()
 {
 	return lineTag;
 }
+
 void lexicalAnalyzer::analyze()
 {
 	try

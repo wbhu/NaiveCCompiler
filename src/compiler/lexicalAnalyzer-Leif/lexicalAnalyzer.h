@@ -3,7 +3,7 @@
 * @Email: leifzhu@foxmail.com
 * @Date:   2017-05-14 17:08:13
 * @Last Modified by:   Leif
-* @Last Modified time: 2017-05-14 18:35:34
+* @Last Modified time: 2017-05-21 15:01:26
 */
 #ifndef _LEXICALANLYZER_H_
 #define _LEXICALANLYZER_H_
@@ -24,8 +24,7 @@ typedef struct
 class lexicalAnalyzer
 {
 	vector<string> keyword; //keyword list
-	string singleDel; //single delimiter
-	string doubleDel; // the first character of double delimiter
+	string delimiters; //delimiters
 	ifstream fin; // input file
 	unsigned int lineTag;
 	unsigned int oldLineTag; //for rollbacking one token
