@@ -3,7 +3,7 @@
 * @Email: leifzhu@foxmail.com
 * @Date:   2017-05-11 18:46:41
 * @Last Modified by:   Leif
-* @Last Modified time: 2017-05-21 16:43:52
+* @Last Modified time: 2017-05-21 17:34:56
 */
 #include <string>
 #include <iostream>
@@ -166,21 +166,21 @@ void SemanticAnalyzer::statement()
 		get(token);
 		compoundStat();
 	}
-	else if(match(_ID) || match(_NUM) || match(_PARENTHESE_L)) 
+	else if(match(_ID) || match(_NUM) || match(_PARENTHESE_L) || match(_SEMICOLON)) 
 	{
-		expressionStat();
+		expression();
 	}
 	else throw 9;
 }
 
-void SemanticAnalyzer::expressionStat()
+void SemanticAnalyzer::expression()
 {
 	if(match(_SEMICOLON))
 	{
 		get(token);
 		return;
 	}
-	expression();
+	noneEmptyExpression();
 	pop();
 	if(match(_SEMICOLON))
 	{
@@ -190,7 +190,7 @@ void SemanticAnalyzer::expressionStat()
 	else throw 4;
 }
 
-void SemanticAnalyzer::expression()
+void SemanticAnalyzer::noneEmptyExpression()
 {
 	if(match(_ID))
 	{
@@ -256,7 +256,7 @@ void SemanticAnalyzer::factor()
 	if(match(_PARENTHESE_L))
 	{
 		get(token);
-		expression();
+		noneEmptyExpression();
 		if(!match(_PARENTHESE_R)) throw 6;
 		get(token);
 	}
@@ -279,7 +279,7 @@ void SemanticAnalyzer::ifStat()
 {
 	if(!match(_PARENTHESE_L)) throw 5;
 	get(token);
-	expression();
+	noneEmptyExpression();
 	if(!match(_PARENTHESE_R)) throw 6;
 	int label1 = labelTag++;
 	jz(label1);
@@ -302,7 +302,7 @@ void SemanticAnalyzer::whileStat()
 	setLabel(label1);
 	if(!match(_PARENTHESE_L)) throw 5;
 	get(token);
-	expression();
+	noneEmptyExpression();
 	if(!match(_PARENTHESE_R)) throw 6;
 	int label2 = labelTag++;
 	jz(label2);
@@ -318,14 +318,14 @@ void SemanticAnalyzer::forStat()
 	if(!match(_PARENTHESE_L)) throw 5;
 
 	get(token);
-	expression();
+	noneEmptyExpression();
 	pop();
 	if(!match(_SEMICOLON)) throw 4;
 	
 	label1 = labelTag++;
 	setLabel(label1);//set label1 for loop condition
 	get(token);
-	expression();
+	noneEmptyExpression();
 	label2 = labelTag++;
 	jz(label2);//false ->end
 	label3 = labelTag++;
@@ -335,7 +335,7 @@ void SemanticAnalyzer::forStat()
 	label4 = labelTag++;
 	setLabel(label4);
 	get(token);
-	expression();
+	noneEmptyExpression();
 	pop();
 	jmp(label1);
 	if(!match(_PARENTHESE_R)) throw 6;
@@ -356,12 +356,12 @@ void SemanticAnalyzer::printVartable()
 		cout<<"\t"<<varTable[i].name<<'\t'<<varTable[i].address<<endl;
 	}
 }
-/* <print_stat> := print<expression>@OUT 
+/* <print_stat> := print<noneEmptyExpression>@OUT 
 OUT指令将栈顶元素输出*/
 
 void SemanticAnalyzer::printStat()
 {
-	expression();
+	noneEmptyExpression();
 	if(token.term != _SEMICOLON) throw 4;
 	out();
 	get(token);

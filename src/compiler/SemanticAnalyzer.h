@@ -3,7 +3,7 @@
 * @Email: leifzhu@foxmail.com
 * @Date:   2017-05-11 14:48:58
 * @Last Modified by:   Leif
-* @Last Modified time: 2017-05-21 16:44:18
+* @Last Modified time: 2017-05-21 17:30:13
 */
 #ifndef _SEMATICANALYZER_H_
 #define _SEMATICANALYZER_H_
@@ -63,8 +63,8 @@ public:
 	void program();
 	void compoundStat();
 	void statement();
-	void expressionStat();
 	void expression();
+	void noneEmptyExpression();
 	void boolExpr();
 	void arithmeticExpr();
 	void term();

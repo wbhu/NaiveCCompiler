@@ -3,7 +3,7 @@
 * @Email: leifzhu@foxmail.com
 * @Date:   2017-05-14 18:12:29
 * @Last Modified by:   Leif
-* @Last Modified time: 2017-05-21 15:14:53
+* @Last Modified time: 2017-05-21 19:33:57
 */
 #include "lexicalAnalyzer.h"
 #include <iostream>
@@ -33,10 +33,9 @@ Token lexicalAnalyzer::next()
 {
 	if(fin.eof()) throw 41; // unexpected end of file
 	oldLineTag = lineTag;
-	oldOffset = fin.tellg(); 
-	//record last line tag and point of input file
+	oldOffset = fin.tellg(); //record last line tag and offset of input file
 	Token token;
-	while(ch ==' '||ch == '\n'||ch == '\t')
+	while(ch ==' '||ch == '\n'||ch == '\t') //filter space
 	{
 		if(ch == '\n') lineTag++;
 		fin.get(ch);
