@@ -3,7 +3,7 @@
 * @Email: leifzhu@foxmail.com
 * @Date:   2017-05-11 14:48:58
 * @Last Modified by:   Leif
-* @Last Modified time: 2017-05-21 17:30:13
+* @Last Modified time: 2017-05-21 20:10:15
 */
 #ifndef _SEMATICANALYZER_H_
 #define _SEMATICANALYZER_H_
@@ -16,7 +16,6 @@ using std::vector;
 using std::string;
 using std::ifstream;
 using std::ofstream;
-
 
 class SemanticAnalyzer
 {
@@ -35,7 +34,7 @@ class SemanticAnalyzer
 	string codeOut;
 	ofstream fout;
 	ifstream fin;
-	vector<Record> varTable;
+	vector<Record> varTable;//variable table
 	int labelTag;
 	int	dataAddress;
 
@@ -43,7 +42,8 @@ public:
 	SemanticAnalyzer(string input);
 	SemanticAnalyzer(string input, string output);
 	~SemanticAnalyzer();
-	void analyze();
+	void analyze();//entrance
+	/******semantic action******/
 	inline bool match(Term terminal);
 	inline void stop();
 	inline void pop();
@@ -60,6 +60,7 @@ public:
 	inline void lookup(string &name,int &address);
 	inline void printVartable();
 	inline void get(Token &tk);
+	/***********grammatical unit*****/
 	void program();
 	void compoundStat();
 	void statement();
