@@ -1,4 +1,4 @@
-#include <simpleVitualMachine.h>
+#include "simpleVitualMachine.h"
 #include <iostream>
 using namespace std;
 int main(int argc, char const *argv[])

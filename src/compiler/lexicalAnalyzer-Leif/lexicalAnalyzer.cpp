@@ -3,7 +3,7 @@
 * @Email: leifzhu@foxmail.com
 * @Date:   2017-05-14 18:12:29
 * @Last Modified by:   Leif
-* @Last Modified time: 2017-05-21 19:33:57
+* @Last Modified time: 2017-05-22 01:27:18
 */
 #include "lexicalAnalyzer.h"
 #include <iostream>
@@ -57,7 +57,7 @@ Token lexicalAnalyzer::next()
 		}
 
 		if(!fin.eof()&&find(delimiters.begin(),delimiters.end(),ch) ==  delimiters.end()
-			&&ch != ' ' && ch != '\t' && ch != '\n')
+			&&ch != ' ' && ch != '\t' && ch != '\n') //123\n is OK but 123ab can't be accepted
 		{
 			throw 42; //illegal identifier
 		}
