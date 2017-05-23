@@ -3,7 +3,12 @@
 * @Email: leifzhu@foxmail.com
 * @Date:   2017-05-11 18:46:41
 * @Last Modified by:   Leif
-* @Last Modified time: 2017-05-21 17:34:56
+* @Last Modified time: 2017-05-23 16:02:12
+*/
+
+/*the proper order to read this code
+*is construct function -> entrance function(analyze()) ->
+*semantic action fuction -> grammer unit fuction
 */
 #include <string>
 #include <iostream>
@@ -109,6 +114,72 @@ void SemanticAnalyzer::lookup(string &name,int &address)
 	throw 13;
 }
 
+void SemanticAnalyzer::stop()
+{
+	fout<<"\tSTOP"<<endl;
+}
+
+void SemanticAnalyzer::pop()
+{
+	fout<<"\tPOP"<<endl;
+}
+
+void SemanticAnalyzer::jmp(int label)
+{
+	fout<<"\tJMP "<<label<<endl;
+}
+void SemanticAnalyzer::jz(int label)
+{
+	fout<<"\tJZ "<<label<<endl;
+}
+
+void SemanticAnalyzer::operate(Term op)
+{
+	if(op == _BIGGER) fout<<"\tGT"<<endl;
+	if(op == _BIGGEROREQUAL) fout<<"\tGE"<<endl;
+	if(op == _SMALLLER) fout<<"\tLES"<<endl;
+	if(op == _SIMMALLEROREQUAL) fout<<"	LE"<<endl;
+	if(op == _EQUAL) fout<<"\tEQ"<<endl;
+	if(op == _NOTEQUAL) fout<<"\tNOTEQ"<<endl;
+	if(op == _ADD) fout<<"\tADD"<<endl;
+	if(op == _SUB) fout<<"\tSUB"<<endl;
+	if(op == _MUL) fout<<"\tMULT"<<endl;
+	if(op == _DIV) fout<<"\tDIV"<<endl;
+}
+
+void SemanticAnalyzer::store(int address)
+{
+	fout<<"\tSTO "<<address<<endl;
+}
+
+void SemanticAnalyzer::setLabel(int label)
+{
+	fout<<"LABEL"<<label<<":"<<endl;
+}
+
+void SemanticAnalyzer::load(int address)
+{
+	fout<<"\tLOAD "<<address<<endl;
+}
+
+void SemanticAnalyzer::imm(string constnum)
+{
+	fout<<"\tIMM "<<constnum<<endl;
+}
+
+void SemanticAnalyzer::in()
+{
+	fout<<"\tIN"<<endl;
+}
+void SemanticAnalyzer::out()
+{
+	fout<<"\tOUT"<<endl;
+}
+
+bool SemanticAnalyzer::match(Term terminal)
+{
+	return (token.term == terminal);
+}
 
 void SemanticAnalyzer::program()
 {
@@ -411,72 +482,4 @@ void SemanticAnalyzer::statementList()
 	{
 		statement();
 	}
-}
-
-inline void SemanticAnalyzer::stop()
-{
-	fout<<"\tSTOP"<<endl;
-}
-
-inline void SemanticAnalyzer::pop()
-{
-	fout<<"\tPOP"<<endl;
-}
-
-inline void SemanticAnalyzer::jmp(int label)
-{
-	fout<<"\tJMP "<<label<<endl;
-}
-
-inline void SemanticAnalyzer::jz(int label)
-{
-	fout<<"\tJZ "<<label<<endl;
-}
-
-inline void SemanticAnalyzer::operate(Term op)
-{
-	if(op == _BIGGER) fout<<"\tGT"<<endl;
-	if(op == _BIGGEROREQUAL) fout<<"\tGE"<<endl;
-	if(op == _SMALLLER) fout<<"\tLES"<<endl;
-	if(op == _SIMMALLEROREQUAL) fout<<"	LE"<<endl;
-	if(op == _EQUAL) fout<<"\tEQ"<<endl;
-	if(op == _NOTEQUAL) fout<<"\tNOTEQ"<<endl;
-	if(op == _ADD) fout<<"\tADD"<<endl;
-	if(op == _SUB) fout<<"\tSUB"<<endl;
-	if(op == _MUL) fout<<"\tMULT"<<endl;
-	if(op == _DIV) fout<<"\tDIV"<<endl;
-}
-
-inline void SemanticAnalyzer::store(int address)
-{
-	fout<<"\tSTO "<<address<<endl;
-}
-
-inline void SemanticAnalyzer::setLabel(int label)
-{
-	fout<<"LABEL"<<label<<":"<<endl;
-}
-
-inline void SemanticAnalyzer::load(int address)
-{
-	fout<<"\tLOAD "<<address<<endl;
-}
-
-inline void SemanticAnalyzer::imm(string constnum)
-{
-	fout<<"\tIMM "<<constnum<<endl;
-}
-
-inline void SemanticAnalyzer::in()
-{
-	fout<<"\tIN"<<endl;
-}
-inline void SemanticAnalyzer::out()
-{
-	fout<<"\tOUT"<<endl;
-}
-
-inline bool SemanticAnalyzer::match(Term terminal)
-{
-	return (token.term == terminal);
 }
